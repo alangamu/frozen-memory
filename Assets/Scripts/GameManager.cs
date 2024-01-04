@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -12,6 +13,8 @@ namespace Assets.Scripts
         private GameEvent _gameStartEvent;
         [SerializeField]
         private IntVariable _activePlayerId;
+        [SerializeField]
+        private BoardManager _boardManager;
 
         private NetworkVariable<int> _activeClientId = new NetworkVariable<int>(9);
         private NetworkVariable<int> _activePlayerIndex = new NetworkVariable<int>(9);
@@ -63,6 +66,22 @@ namespace Assets.Scripts
             }
 
             _activeClientId.Value = (int)_clientsIdList[_activePlayerIndex.Value];
+        }
+
+        private async void Start()
+        {
+            Debug.Log($"NetworkManager.Singleton.IsServer {NetworkManager.Singleton.IsServer}");
+
+            if (NetworkManager.Singleton.IsServer)
+            {
+                Debug.Log($"IsServer");
+                await Task.Delay(5000);
+                _boardManager.Initialize();
+            }
+            else
+            {
+                Debug.Log($"Is not Server");
+            }
         }
     }
 }

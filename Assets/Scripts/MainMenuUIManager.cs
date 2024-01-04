@@ -1,17 +1,26 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts
 {
     public class MainMenuUIManager : MonoBehaviour
     {
         [SerializeField]
-        private LobbyManager _lobbyManager;
+        private string _startupSceneName = "Startup";
+        [SerializeField]
+        private BoolVariable _isStartupLoaded;
 
-        private async void Start()
+        private void Start()
         {
-            await _lobbyManager.SignIn();
+            if (!_isStartupLoaded.Value)
+            {
+                LoadScene(_startupSceneName);
+            }
         }
 
+        private void LoadScene(string sceneName)
+        {
+            SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
+        }
     }
 }

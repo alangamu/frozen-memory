@@ -9,10 +9,6 @@ namespace Assets.Scripts
         [SerializeField]
         private GameEvent _gameStartEvent;
         [SerializeField]
-        private PlayerScoreUIController _playerScoreUIPrefab;
-        [SerializeField]
-        private Transform _listRootTransform;
-        [SerializeField]
         private PlayerScoreUIController[] _playerScoreUIControllers;
         [SerializeField]
         private IntGameEvent _playerScored;

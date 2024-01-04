@@ -1,4 +1,5 @@
 ﻿using Ricimi;
+using Unity.Netcode;
 using Unity.Services.Lobbies;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,7 +20,9 @@ namespace Assets.Scripts
             options.Player = _lobbyManager.CreatePlayer();
 
             await _lobbyManager.CreateLobby(_lobbyNameText.text, options);
-            
+
+            NetworkManager.Singleton.StartHost();
+
             if (TryGetComponent(out Popup popup))
             {
                 popup.Close();

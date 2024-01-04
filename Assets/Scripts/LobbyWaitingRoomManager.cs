@@ -1,4 +1,5 @@
 ﻿using Ricimi;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Netcode;
@@ -6,11 +7,12 @@ using Unity.Services.Authentication;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Assets.Scripts
 {
-    public class LobbyWaitingRoomManager : MonoBehaviour
+    public class LobbyWaitingRoomManager : NetworkBehaviour
     {
         [SerializeField]
         private LobbyManager _lobbyManager;
@@ -69,8 +71,9 @@ namespace Assets.Scripts
 
             if (IsAllPlayersReady() && _isPlayerReady)
             {
-                _sceneTransition.scene = "GameScene";
-                _sceneTransition.PerformTransition();
+                LoadScene();
+                //_sceneTransition.scene = "GameScene";
+                //_sceneTransition.PerformTransition();
             }
         }
 
@@ -114,17 +117,15 @@ namespace Assets.Scripts
 
             if (IsAllPlayersReady() && _isPlayerReady)
             {
-                if (_playerId == _lobbyManager.HostId)
+                if (_playerId != _lobbyManager.HostId)
                 {
-                    NetworkManager.Singleton.StartHost();
-                }
-                else
-                {
+                    Debug.Log("StartClient");
                     NetworkManager.Singleton.StartClient();
                 }
 
-                _sceneTransition.scene = "GameScene";
-                _sceneTransition.PerformTransition();
+                LoadScene();
+                //_sceneTransition.scene = "GameScene";
+                //_sceneTransition.PerformTransition();
             }
         }
 
@@ -186,6 +187,20 @@ namespace Assets.Scripts
             }
 
             return joinedLobby;
+        }
+
+        private void LoadScene()
+        {
+            string m_SceneName = "GameScene";
+            if (NetworkManager.Singleton.IsServer && !string.IsNullOrEmpty(m_SceneName))
+            {
+                var status = NetworkManager.SceneManager.LoadScene(m_SceneName, LoadSceneMode.Single);
+                if (status != SceneEventProgressStatus.Started)
+                {
+                    Debug.LogWarning($"Failed to load {m_SceneName} " +
+                          $"with a {nameof(SceneEventProgressStatus)}: {status}");
+                }
+            }
         }
     }
 }

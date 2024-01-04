@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: LobbyManager
   m_EditorClassIdentifier: 
   _playerNameVariable: {fileID: 11400000, guid: ace68e105c96ee84db72d4713f8a6b43, type: 2}
+  _isStartupLoaded: {fileID: 11400000, guid: a293c2b80c92144478c6da31fb8498d0, type: 2}

@@ -1,23 +1,10 @@
-﻿using System;
-using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Scripts
 {
     [CreateAssetMenu(menuName = "Variables/String Variable")]
-    public class StringVariable : ScriptableObject
+    public class StringVariable : BaseVariable<string>
     {
-        public event Action<string> OnValueChanged;
-        
-        public string Value; 
 
-        public void SetValue(string value)
-        {
-            Value = value;
-            OnValueChanged?.Invoke(Value);
-#if UNITY_EDITOR
-            EditorUtility.SetDirty(this);
-#endif
-        }
     }
 }

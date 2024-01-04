@@ -16279,7 +16279,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b07c45bc25776d40851e71812883ec2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lobbyManager: {fileID: 11400000, guid: 872f25c6295727d459df34fb4d38a167, type: 2}
+  _startupSceneName: Startup
+  _isStartupLoaded: {fileID: 11400000, guid: a293c2b80c92144478c6da31fb8498d0, type: 2}
 --- !u!4 &1594884702
 Transform:
   m_ObjectHideFlags: 0

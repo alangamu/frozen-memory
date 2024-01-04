@@ -1,20 +1,10 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Scripts
 {
-    [CreateAssetMenu]
-    public class IntVariable : ScriptableObject
+    [CreateAssetMenu(menuName = "Variables/Int Variable")]
+    public class IntVariable : BaseVariable<int>
     {
-        public event Action<int> OnValueChanged;
-        public int Value => _value;
 
-        private int _value;
-
-        public void SetValue(int value)
-        {
-            _value = value;
-            OnValueChanged?.Invoke(value);
-        }
     }
 }

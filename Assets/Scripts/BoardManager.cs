@@ -22,10 +22,13 @@ namespace Assets.Scripts
         private GameEvent _nextTurnEvent;
         [SerializeField]
         private IntGameEvent _playerScored;
-        [SerializeField]
-        private PlayerWinController _playerWinController;
-        [SerializeField]
-        private ScoreManager _scoreManager;
+        //[SerializeField]
+        //private PlayerWinController _playerWinController;
+        //[SerializeField]
+        //private ScoreManager _scoreManager;
+
+        //[SerializeField]
+        //private Button _spawnBoardButton;
 
         private List<int> _randomNumberList = new List<int>();
         private List<int> _activeTilesIndex = new List<int>();
@@ -54,6 +57,7 @@ namespace Assets.Scripts
 
         public void Initialize()
         {
+            Debug.Log("Initialize");
             ShowContentClientRpc();
 
             if (NetworkManager.Singleton.IsServer)
@@ -129,7 +133,8 @@ namespace Assets.Scripts
 
                 if (Array.FindAll(_tileControllers, x => !x.IsDone).Length == 0)
                 {
-                    OnWinGameClientRpc(_scoreManager.GetHighScorePlayerName());
+                    OnWinGameClientRpc("Kim");
+                    //OnWinGameClientRpc(_scoreManager.GetHighScorePlayerName());
                 }
             }
             else
@@ -163,6 +168,7 @@ namespace Assets.Scripts
         [ClientRpc]
         private void ShowContentClientRpc()
         {
+            Debug.Log("ShowContentClientRpc");
             _gameStartEvent.Raise();
             _content.gameObject.SetActive(true);
         }
@@ -179,18 +185,36 @@ namespace Assets.Scripts
         [ClientRpc]
         private void OnWinGameClientRpc(string winClientId)
         {
-            _playerWinController.gameObject.SetActive(true);
-            _playerWinController.PlayerWin(winClientId);
+            Debug.Log("OnWinGameClientRpc");
+            //_playerWinController.gameObject.SetActive(true);
+            //_playerWinController.PlayerWin(winClientId);
         }
 
         private void Start()
         {
-            Debug.Log("Start");
-            Debug.Log($"NetworkManager.Singleton.IsHost {NetworkManager.Singleton.IsHost}");
-            if (NetworkManager.Singleton.IsHost)
-            {
-                Initialize();
-            }
+            Debug.Log("Start BoardManager");
+            //if (_playerId == _lobbyManager.HostId)
+            //{
+            //    Debug.LogError("StartHost");
+            //    NetworkManager.Singleton.StartHost();
+            //}
+            //else
+            //{
+            //    Debug.LogError("StartClient");
+            //    NetworkManager.Singleton.StartClient();
+            //}
+
+            //_spawnBoardButton.gameObject.SetActive(false);
+            //if (NetworkManager.Singleton.IsServer)
+            //{
+            //    _spawnBoardButton.gameObject.SetActive(true);
+            //    _spawnBoardButton.onClick.AddListener(() => {
+            //        _spawnBoardButton.gameObject.SetActive(false);
+
+            //        Initialize();
+            //    });
+                //Initialize();
+            //}
         }
     }
 }

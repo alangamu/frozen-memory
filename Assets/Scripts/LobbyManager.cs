@@ -4,6 +4,7 @@ using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -16,6 +17,8 @@ namespace Assets.Scripts
 
         [SerializeField]
         private StringVariable _playerNameVariable;
+        [SerializeField]
+        private BoolVariable _isStartupLoaded;
 
         private string _joinedLobbyId;
         private string _hostId;

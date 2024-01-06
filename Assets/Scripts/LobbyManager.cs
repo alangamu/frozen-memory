@@ -47,51 +47,21 @@ namespace Assets.Scripts
         public async Task<string> StartHostWithRelay(int maxConnections = 3)
         {
             Allocation allocation = await RelayService.Instance.CreateAllocationAsync(maxConnections);
+            
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(allocation, "dtls"));
+            
             var joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
+            
             return NetworkManager.Singleton.StartHost() ? joinCode : null;
         }
 
         public async Task<bool> StartClientWithRelay(string joinCode)
         {
-            await UnityServices.InitializeAsync();
-            if (!AuthenticationService.Instance.IsSignedIn)
-            {
-                await AuthenticationService.Instance.SignInAnonymouslyAsync();
-            }
-
             var joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode: joinCode);
+
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(joinAllocation, "dtls"));
+
             return !string.IsNullOrEmpty(joinCode) && NetworkManager.Singleton.StartClient();
-        }
-
-        public async void CreateRelay()
-        {
-            try
-            {
-                Allocation allocation = await RelayService.Instance.CreateAllocationAsync(3);
-
-                string joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
-
-                Debug.Log($"Relay join code {joinCode}");
-            }
-            catch (RelayServiceException e)
-            {
-                Debug.Log(e);
-            }
-        }
-
-        public async void JoinRelay(string joinCode)
-        {
-            try
-            {
-                Debug.Log($"Join relay {joinCode}");
-                await RelayService.Instance.JoinAllocationAsync(joinCode);
-            }
-            catch (RelayServiceException e)
-            {
-                Debug.Log(e);
-            }
         }
 
         public async Task CreateLobby(string lobbyName)
@@ -119,22 +89,19 @@ namespace Assets.Scripts
 
         public async Task StartGame()
         {
-            if (NetworkManager.Singleton.IsHost)
+            Debug.Log("Start Game Host");
+
+            string relayCode = await StartHostWithRelay();
+
+            Debug.Log($"Relay code {relayCode}");
+
+            await Lobbies.Instance.UpdateLobbyAsync(_joinedLobbyId, new UpdateLobbyOptions
             {
-                Debug.Log("Start Game Host");
-
-                string relayCode = await StartHostWithRelay();
-
-                Debug.Log($"Relay code {relayCode}");
-
-                await Lobbies.Instance.UpdateLobbyAsync(_joinedLobbyId, new UpdateLobbyOptions
+                Data = new Dictionary<string, DataObject>
                 {
-                    Data = new Dictionary<string, DataObject>
-                    {
-                        { _keyStartGameVariable.Value, new DataObject(DataObject.VisibilityOptions.Member, relayCode) }
-                    }
-                });
-            }
+                    { _keyStartGameVariable.Value, new DataObject(DataObject.VisibilityOptions.Member, relayCode) }
+                }
+            });
         }
 
         public async Task<List<Lobby>> GetLobbyList()

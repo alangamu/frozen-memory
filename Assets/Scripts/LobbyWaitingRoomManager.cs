@@ -37,8 +37,15 @@ namespace Assets.Scripts
         private Lobby _joinedLobby;
         private SceneTransition _sceneTransition;
 
+        private void Awake()
+        {
+            TryGetComponent(out _sceneTransition);
+        }
+
         public async void BackToLobby()
         {
+            //TODO: delete or handle lobby if i'm the host
+
             await _lobbyManager.LeaveLobby(_joinedLobby.Id, _playerId);
 
             _sceneTransition.PerformTransition();
@@ -47,7 +54,7 @@ namespace Assets.Scripts
         public async void PlayerReady()
         {
             _isPlayerReady = !_isPlayerReady;
-
+            
             _playerReadyTickGameObject.SetActive(_isPlayerReady);
             _readyButtonText.text = _isPlayerReady ? "Ready" : "Cancel";
 
@@ -74,19 +81,7 @@ namespace Assets.Scripts
             }
 
             _waitingRoomPlayer.SetReady(_isPlayerReady);
-
-            //if (IsAllPlayersReady() && _isPlayerReady)
-            //{
-            //    LoadScene();
-            //    //_sceneTransition.scene = "GameScene";
-            //    //_sceneTransition.PerformTransition();
-            //}
         }
-
-        //private void Awake()
-        //{
-        //    TryGetComponent(out _sceneTransition);
-        //}
 
         private async void Start()
         {
@@ -115,12 +110,18 @@ namespace Assets.Scripts
                     default: throw;
                 }
             }
-        }
 
-        //private void OnLobbyChanged(ILobbyChanges lobbyChanges)
-        //{
-        //    lobbyChanges.Data.Value
-        //}
+            if (_playerId.Equals(_lobbyManager.HostId))
+            {
+                Debug.Log($"start game is host");
+                await _lobbyManager.StartGame();
+            }
+            else
+            {
+                Debug.Log($"join with relay {_joinedLobby.Data[_keyStartGameVariable.Value].Value}");
+                await _lobbyManager.StartClientWithRelay(_joinedLobby.Data[_keyStartGameVariable.Value].Value);
+            }
+        }
 
         private async void OnOtherPlayerDataChanged(Dictionary<int, Dictionary<string, ChangedOrRemovedLobbyValue<PlayerDataObject>>> obj)
         {
@@ -144,52 +145,8 @@ namespace Assets.Scripts
                 }
             }
 
-            Debug.Log("Start Game LobbyWaitingRoomManager");
-
-
-            //if (NetworkManager.Singleton.IsServer)
-            //{
-            //    LoadGameScene();
-            //    //string m_SceneName = "GameScene";
-            //    //var status = NetworkManager.SceneManager.LoadScene(m_SceneName, LoadSceneMode.Single);
-            //    //if (status != SceneEventProgressStatus.Started)
-            //    //{
-            //    //    Debug.LogWarning($"Failed to load {m_SceneName} " +
-            //    //          $"with a {nameof(SceneEventProgressStatus)}: {status}");
-            //    //}
-            //    _lobbyCanvas.gameObject.SetActive(false);
-            //}
-
-
-            //if (IsAllPlayersReady() && _isPlayerReady)
-            //{
-            //    if (_playerId != _lobbyManager.HostId)
-            //    {
-            //        Debug.Log("StartClient");
-            //        NetworkManager.Singleton.StartClient();
-            //    }
-
-            //    LoadScene();
-            //    //_sceneTransition.scene = "GameScene";
-            //    //_sceneTransition.PerformTransition();
-            //}
+            LoadGameScene();
         }
-
-        //private bool IsAllPlayersReady()
-        //{
-        //    foreach (var player in _joinedLobby.Players)
-        //    {
-        //        if (player.Data.TryGetValue("ready", out PlayerDataObject playerReady))
-        //        {
-        //            if (playerReady.Value.Equals("false"))
-        //            {
-        //                return false;
-        //            }
-        //        }
-        //    }
-
-        //    return true;
-        //}
 
         private async void OnPlayerLeft(List<int> list)
         {
@@ -237,9 +194,9 @@ namespace Assets.Scripts
 
         private void LoadGameScene()
         {
+            Debug.Log($"LoadGameScene NetworkManager.Singleton.IsServer {NetworkManager.Singleton.IsServer}");
             string m_SceneName = "GameScene";
-            if (!string.IsNullOrEmpty(m_SceneName))
-            //if (NetworkManager.Singleton.IsServer && !string.IsNullOrEmpty(m_SceneName))
+            if (NetworkManager.Singleton.IsServer && !string.IsNullOrEmpty(m_SceneName))
             {
                 Debug.Log("LoadGameScene");
                 var status = NetworkManager.SceneManager.LoadScene(m_SceneName, LoadSceneMode.Single);

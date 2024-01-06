@@ -1,8 +1,4 @@
 ﻿using Ricimi;
-using System.Collections.Generic;
-using Unity.Netcode;
-using Unity.Services.Lobbies;
-using Unity.Services.Lobbies.Models;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,7 +15,6 @@ namespace Assets.Scripts
         {
             await _lobbyManager.CreateLobby(_lobbyNameText.text);
 
-            await _lobbyManager.StartGame();
             //NetworkManager.Singleton.StartHost();
 
             if (TryGetComponent(out Popup popup))

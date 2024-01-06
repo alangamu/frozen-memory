@@ -17,6 +17,8 @@ namespace Assets.Scripts
         private Text _playerId;
         [SerializeField]
         private StringVariable _playerNameVariable;
+        [SerializeField]
+        private StringVariable _keyStartGameVariable;
 
         public async void RefreshLobbyList()
         {

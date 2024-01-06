@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Unity.Netcode.Transports.UTP;
 using Unity.Netcode;
@@ -11,14 +10,13 @@ using Unity.Services.Lobbies.Models;
 using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using UnityEngine;
-using System;
 
 namespace Assets.Scripts
 {
     [CreateAssetMenu]
     public class LobbyManager : ScriptableObject
     {
-        public event Action<string> OnGameStart;
+        //public event Action<string> OnGameStart;
         public string JoinedLobbyId => _joinedLobbyId;
         public string HostId => _hostId;
 
@@ -127,14 +125,15 @@ namespace Assets.Scripts
 
                 string relayCode = await StartHostWithRelay();
 
-                //await Lobbies.Instance.UpdateLobbyAsync(_joinedLobbyId, new UpdateLobbyOptions { 
-                //    Data = new Dictionary<string, DataObject>
-                //    {
-                //        { _keyStartGameVariable.Value, new DataObject(DataObject.VisibilityOptions.Member, relayCode) }
-                //    }
-                //});
+                Debug.Log($"Relay code {relayCode}");
 
-                OnGameStart?.Invoke(relayCode);
+                await Lobbies.Instance.UpdateLobbyAsync(_joinedLobbyId, new UpdateLobbyOptions
+                {
+                    Data = new Dictionary<string, DataObject>
+                    {
+                        { _keyStartGameVariable.Value, new DataObject(DataObject.VisibilityOptions.Member, relayCode) }
+                    }
+                });
             }
         }
 
@@ -177,16 +176,18 @@ namespace Assets.Scripts
             }
         }
 
-        public async Task JoinLobby(string lobbyId, JoinLobbyByIdOptions options)
+        public async Task<Lobby> JoinLobby(string lobbyId, JoinLobbyByIdOptions options)
         {
             try
             {
                 Lobby _joinedLobby = await LobbyService.Instance.JoinLobbyByIdAsync(lobbyId, options);
                 _joinedLobbyId = _joinedLobby.Id;
+                return _joinedLobby;
             }
             catch (LobbyServiceException e)
             {
                 Debug.Log(e);
+                return null;
             }
         }
 

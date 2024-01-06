@@ -19,7 +19,7 @@ namespace Assets.Scripts
         {
             await _lobbyManager.CreateLobby(_lobbyNameText.text);
 
-            //await _lobbyManager.StartHostWithRelay();
+            await _lobbyManager.StartGame();
             //NetworkManager.Singleton.StartHost();
 
             if (TryGetComponent(out Popup popup))

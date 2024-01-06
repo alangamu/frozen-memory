@@ -5395,7 +5395,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _lobbyNameText: {fileID: 2670850301204171772}
   _lobbyManager: {fileID: 11400000, guid: 872f25c6295727d459df34fb4d38a167, type: 2}
-  _playerNameVariable: {fileID: 11400000, guid: ace68e105c96ee84db72d4713f8a6b43, type: 2}
+  _keyStartGameVariable: {fileID: 11400000, guid: 1ae6988cbc1c72847b7e8298b39c4eeb, type: 2}
 --- !u!114 &1530549446376693048
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,6 +1,4 @@
 ﻿using Ricimi;
-using System.Collections.Generic;
-using Unity.Services.Authentication;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
@@ -28,7 +26,7 @@ namespace Assets.Scripts
             JoinLobbyByIdOptions options = new JoinLobbyByIdOptions();
             options.Player = _lobbyManager.CreatePlayer();
 
-            await _lobbyManager.JoinLobby(_lobbyId, options);
+            Lobby joinedLobby = await _lobbyManager.JoinLobby(_lobbyId, options);
 
             if (TryGetComponent(out SceneTransition sceneTransition))
             {

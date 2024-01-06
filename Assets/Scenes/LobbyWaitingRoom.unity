@@ -1185,6 +1185,7 @@ MonoBehaviour:
   _playersParentTranform: {fileID: 884715154}
   _playerReadyTickGameObject: {fileID: 230936195412645133}
   _readyButtonText: {fileID: 5540279433689484246}
+  _keyStartGameVariable: {fileID: 11400000, guid: 1ae6988cbc1c72847b7e8298b39c4eeb, type: 2}
   _lobbyCanvas: {fileID: 1691299589}
 --- !u!224 &3162330738399178311
 RectTransform:

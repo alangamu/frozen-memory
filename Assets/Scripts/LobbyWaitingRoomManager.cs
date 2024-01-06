@@ -65,6 +65,8 @@ namespace Assets.Scripts
                 };
 
                 _joinedLobby = await LobbyService.Instance.UpdatePlayerAsync(_lobbyManager.JoinedLobbyId, _playerId, options);
+
+                Debug.Log($"_joinedLobby.Data {_joinedLobby.Data[_keyStartGameVariable.Value].Value}");
             }
             catch (LobbyServiceException e)
             {
@@ -79,21 +81,6 @@ namespace Assets.Scripts
             //    //_sceneTransition.scene = "GameScene";
             //    //_sceneTransition.PerformTransition();
             //}
-        }
-
-        private void OnEnable()
-        {
-            _lobbyManager.OnGameStart += StartGame;
-        }
-
-        private void OnDisable()
-        {
-            _lobbyManager.OnGameStart -= StartGame;
-        }
-
-        private void StartGame(string relayCode)
-        {
-            Debug.Log("Start Game");
         }
 
         //private void Awake()
@@ -255,7 +242,7 @@ namespace Assets.Scripts
             //if (NetworkManager.Singleton.IsServer && !string.IsNullOrEmpty(m_SceneName))
             {
                 Debug.Log("LoadGameScene");
-                var status = NetworkManager.SceneManager.LoadScene(m_SceneName, LoadSceneMode.Additive);
+                var status = NetworkManager.SceneManager.LoadScene(m_SceneName, LoadSceneMode.Single);
                 if (status != SceneEventProgressStatus.Started)
                 {
                     Debug.LogWarning($"Failed to load {m_SceneName} " +

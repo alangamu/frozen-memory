@@ -515,94 +515,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!1 &1274429063
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1274429065}
-  - component: {fileID: 1274429067}
-  - component: {fileID: 1274429064}
-  - component: {fileID: 1274429066}
-  m_Layer: 0
-  m_Name: LobbyWaitingRoom
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1274429064
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1274429063}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c598999289c84a14fba52550d3301670, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _lobbyManager: {fileID: 11400000, guid: 872f25c6295727d459df34fb4d38a167, type: 2}
-  _lobbyName: {fileID: 10455772}
-  _waitingRoomPlayerUIPrefab: {fileID: 4846991233625952947, guid: a417f7118a3cfd74e952add00c6838d9, type: 3}
-  _playersParentTranform: {fileID: 884715154}
-  _playerReadyTickGameObject: {fileID: 230936195412645133}
-  _readyButtonText: {fileID: 5540279433689484246}
-  _lobbyCanvas: {fileID: 1691299589}
---- !u!4 &1274429065
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1274429063}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1274429066
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1274429063}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55f7eaf6dd2a2478c939f6bb532e39ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scene: Lobby
-  duration: 0.5
-  color: {r: 0.2392157, g: 0.75294125, b: 0.8705883, a: 1}
---- !u!114 &1274429067
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1274429063}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2421165246
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
 --- !u!1 &1327861637
 GameObject:
   m_ObjectHideFlags: 0
@@ -1010,6 +922,24 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &813258682531618996
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1567301184607989946}
+  - component: {fileID: 5380872858842557863}
+  - component: {fileID: 2837550363075540270}
+  m_Layer: 0
+  m_Name: LobbyWaitingRoom
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!82 &1141443749300759729
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1124,6 +1054,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &1567301184607989946
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 813258682531618996}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2431665926755810147
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1222,6 +1167,25 @@ RectTransform:
   m_AnchoredPosition: {x: 51, y: -1}
   m_SizeDelta: {x: 250, y: 161}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2837550363075540270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 813258682531618996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c598999289c84a14fba52550d3301670, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lobbyManager: {fileID: 11400000, guid: 872f25c6295727d459df34fb4d38a167, type: 2}
+  _lobbyName: {fileID: 10455772}
+  _waitingRoomPlayerUIPrefab: {fileID: 4846991233625952947, guid: a417f7118a3cfd74e952add00c6838d9, type: 3}
+  _playersParentTranform: {fileID: 884715154}
+  _playerReadyTickGameObject: {fileID: 230936195412645133}
+  _readyButtonText: {fileID: 5540279433689484246}
+  _lobbyCanvas: {fileID: 1691299589}
 --- !u!224 &3162330738399178311
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1413,6 +1377,26 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &5380872858842557863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 813258682531618996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 562245847
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &5448477904960730668
 GameObject:
   m_ObjectHideFlags: 0
@@ -1662,7 +1646,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1274429064}
+      - m_Target: {fileID: 2837550363075540270}
         m_TargetAssemblyTypeName: Assets.Scripts.LobbyWaitingRoomManager, Assembly-CSharp
         m_MethodName: PlayerReady
         m_Mode: 1
@@ -2022,7 +2006,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1274429064}
+      - m_Target: {fileID: 2837550363075540270}
         m_TargetAssemblyTypeName: Assets.Scripts.LobbyWaitingRoomManager, Assembly-CSharp
         m_MethodName: BackToLobby
         m_Mode: 1
@@ -2081,4 +2065,4 @@ SceneRoots:
   - {fileID: 619394802}
   - {fileID: 1691299590}
   - {fileID: 1327861640}
-  - {fileID: 1274429065}
+  - {fileID: 1567301184607989946}

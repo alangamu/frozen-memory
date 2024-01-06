@@ -1,6 +1,8 @@
 ﻿using Ricimi;
+using System.Collections.Generic;
 using Unity.Netcode;
 using Unity.Services.Lobbies;
+using Unity.Services.Lobbies.Models;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,13 +17,10 @@ namespace Assets.Scripts
 
         public async void CreateLobby()
         {
-            CreateLobbyOptions options = new CreateLobbyOptions();
+            await _lobbyManager.CreateLobby(_lobbyNameText.text);
 
-            options.Player = _lobbyManager.CreatePlayer();
-
-            await _lobbyManager.CreateLobby(_lobbyNameText.text, options);
-
-            NetworkManager.Singleton.StartHost();
+            //await _lobbyManager.StartHostWithRelay();
+            //NetworkManager.Singleton.StartHost();
 
             if (TryGetComponent(out Popup popup))
             {

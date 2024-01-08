@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7178db4228a32fb46a9cd0717c7085e1, type: 3}
   m_Name: PlayerName
   m_EditorClassIdentifier: 
-  _value: Britney
+  _value: Vandam

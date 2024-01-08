@@ -54,9 +54,11 @@ namespace Assets.Scripts
         public async void PlayerReady()
         {
             _isPlayerReady = !_isPlayerReady;
-            
+
+            Debug.Log($"_isPlayerReady {_isPlayerReady}");
+
             _playerReadyTickGameObject.SetActive(_isPlayerReady);
-            _readyButtonText.text = _isPlayerReady ? "Ready" : "Cancel";
+            _readyButtonText.text = _isPlayerReady ? "Cancel" : "Ready";
 
             try
             {
@@ -119,7 +121,9 @@ namespace Assets.Scripts
             else
             {
                 Debug.Log($"join with relay {_joinedLobby.Data[_keyStartGameVariable.Value].Value}");
-                await _lobbyManager.StartClientWithRelay(_joinedLobby.Data[_keyStartGameVariable.Value].Value);
+                bool isJoined = await _lobbyManager.StartClientWithRelay(_joinedLobby.Data[_keyStartGameVariable.Value].Value);
+
+                Debug.Log($"isJoined {isJoined}");
             }
         }
 

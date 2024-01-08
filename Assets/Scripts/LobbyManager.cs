@@ -57,6 +57,7 @@ namespace Assets.Scripts
 
         public async Task<bool> StartClientWithRelay(string joinCode)
         {
+            Debug.Log($"StartClientWithRelay {joinCode}");
             var joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode: joinCode);
 
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(joinAllocation, "dtls"));
@@ -149,6 +150,7 @@ namespace Assets.Scripts
             {
                 Lobby _joinedLobby = await LobbyService.Instance.JoinLobbyByIdAsync(lobbyId, options);
                 _joinedLobbyId = _joinedLobby.Id;
+                _hostId = string.Empty;
                 return _joinedLobby;
             }
             catch (LobbyServiceException e)

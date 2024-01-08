@@ -1,6 +1,7 @@
 ﻿using System;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts
 {
@@ -14,6 +15,9 @@ namespace Assets.Scripts
         private IntGameEvent _playerScored;
         [SerializeField]
         private PlayerWinController _playerWinController;
+
+        [SerializeField]
+        private Text _infoText;
 
         public string GetHighScorePlayerName()
         {
@@ -66,6 +70,8 @@ namespace Assets.Scripts
         private void SetupPlayerScoreUIClientRpc(int index, ulong clientId)
         {
             _playerScoreUIControllers[index].Setup(clientId);
+            //_infoText.text = $"index {index}, clientId {clientId}";
+            //Debug.LogError($"index {index}, clientId {clientId}");
         }
     }
 }

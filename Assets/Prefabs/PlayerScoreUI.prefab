@@ -422,6 +422,7 @@ GameObject:
   - component: {fileID: 8805937573035051904}
   - component: {fileID: 6199569289308332247}
   - component: {fileID: 1580997247760164}
+  - component: {fileID: 4445684120071007966}
   m_Layer: 5
   m_Name: PlayerScoreUI
   m_TagString: Untagged
@@ -492,7 +493,26 @@ MonoBehaviour:
   _ownerColor: {r: 0.28319404, g: 0.9622642, b: 0.25872195, a: 1}
   _background: {fileID: 737674622573528201}
   _activePlayerIdVariable: {fileID: 11400000, guid: 79c88b4a2cb0a2c47bcef2b76bd71497, type: 2}
-  _nextTurnEvent: {fileID: 11400000, guid: efa39be23d081f04793957bd589ac9e9, type: 2}
+--- !u!114 &4445684120071007966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4846991233625952947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: -1
+  m_PreferredHeight: -1
+  m_FlexibleWidth: 1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &5142183889818683346
 GameObject:
   m_ObjectHideFlags: 0

@@ -3349,6 +3349,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6452086575069820476}
     - target: {fileID: 4503752315798709214, guid: 16f7298cd7e616c4191dba41fd45770a, type: 3}
+      propertyPath: _lobbyManager
+      value: 
+      objectReference: {fileID: 11400000, guid: 872f25c6295727d459df34fb4d38a167, type: 2}
+    - target: {fileID: 4503752315798709214, guid: 16f7298cd7e616c4191dba41fd45770a, type: 3}
       propertyPath: _playerWinController
       value: 
       objectReference: {fileID: 1989030746}

@@ -33,16 +33,18 @@ namespace Assets.Scripts
             _scoreText.text = _score.ToString();
         }
 
-        public void Setup(ulong localPlayerId)
+        public void Setup(int playerId, string playerName)
         {
-            //_userNameText.text = playerName;
-            _playerId = (int) localPlayerId;
+            _userNameText.text = playerName;
+            _playerId = playerId;
             gameObject.SetActive(true);
             _scoreText.text = _score.ToString();
-            _userNameText.text = localPlayerId.ToString();
 
-            _background.color = (int)NetworkManager.Singleton.LocalClientId == _playerId ? _ownerColor : _defaultColor;
-            gameObject.transform.localScale = (int)NetworkManager.Singleton.LocalClientId == _playerId ? Vector3.one * 0.6f : Vector3.one * 0.5f;
+            bool isOwner = (int)NetworkManager.Singleton.LocalClientId == _playerId;
+
+            _background.color = isOwner ? _ownerColor : _defaultColor;
+            gameObject.transform.localScale = isOwner ? Vector3.one * 0.6f : Vector3.one * 0.5f;
+            _turnIndicator.gameObject.SetActive(_activePlayerIdVariable.Value == _playerId);
         }
 
         private void Start()

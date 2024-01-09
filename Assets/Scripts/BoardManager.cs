@@ -189,32 +189,5 @@ namespace Assets.Scripts
             //_playerWinController.gameObject.SetActive(true);
             //_playerWinController.PlayerWin(winClientId);
         }
-
-        private void Start()
-        {
-            Debug.Log("Start BoardManager");
-            //if (_playerId == _lobbyManager.HostId)
-            //{
-            //    Debug.LogError("StartHost");
-            //    NetworkManager.Singleton.StartHost();
-            //}
-            //else
-            //{
-            //    Debug.LogError("StartClient");
-            //    NetworkManager.Singleton.StartClient();
-            //}
-
-            //_spawnBoardButton.gameObject.SetActive(false);
-            //if (NetworkManager.Singleton.IsServer)
-            //{
-            //    _spawnBoardButton.gameObject.SetActive(true);
-            //    _spawnBoardButton.onClick.AddListener(() => {
-            //        _spawnBoardButton.gameObject.SetActive(false);
-
-            //        Initialize();
-            //    });
-                //Initialize();
-            //}
-        }
     }
 }

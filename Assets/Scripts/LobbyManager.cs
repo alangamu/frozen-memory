@@ -180,6 +180,7 @@ namespace Assets.Scripts
                                 data: new Dictionary<string, PlayerDataObject>()
                                 {
                                     {
+                                        //TODO: change both for StringVariables
                                         "PlayerName", new PlayerDataObject(
                                             visibility: PlayerDataObject.VisibilityOptions.Member, // Visible only to members of the lobby.
                                             value: _playerNameVariable.Value)

@@ -16,7 +16,6 @@ namespace Assets.Scripts
     [CreateAssetMenu]
     public class LobbyManager : ScriptableObject
     {
-        //public event Action<string> OnGameStart;
         public string JoinedLobbyId => _joinedLobbyId;
         public string HostId => _hostId;
 
@@ -57,7 +56,6 @@ namespace Assets.Scripts
 
         public async Task<bool> StartClientWithRelay(string joinCode)
         {
-            Debug.Log($"StartClientWithRelay {joinCode}");
             var joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode: joinCode);
 
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(joinAllocation, "dtls"));
@@ -90,11 +88,7 @@ namespace Assets.Scripts
 
         public async Task StartGame()
         {
-            Debug.Log("Start Game Host");
-
             string relayCode = await StartHostWithRelay();
-
-            Debug.Log($"Relay code {relayCode}");
 
             await Lobbies.Instance.UpdateLobbyAsync(_joinedLobbyId, new UpdateLobbyOptions
             {

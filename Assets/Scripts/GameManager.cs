@@ -70,17 +70,11 @@ namespace Assets.Scripts
 
         private async void Start()
         {
-            Debug.Log($"NetworkManager.Singleton.IsServer {NetworkManager.Singleton.IsServer}");
-
+            //TODO: listen to loaded clients connected or something like that
             if (NetworkManager.Singleton.IsServer)
             {
-                Debug.Log($"IsServer");
                 await Task.Delay(5000);
                 _boardManager.Initialize();
-            }
-            else
-            {
-                Debug.Log($"Is not Server");
             }
         }
     }

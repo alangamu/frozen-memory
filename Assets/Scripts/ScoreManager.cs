@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Unity.Netcode;
 using Unity.Services.Lobbies.Models;
@@ -16,12 +17,17 @@ namespace Assets.Scripts
         [SerializeField]
         private IntGameEvent _playerScored;
         [SerializeField]
+        private GameEvent _gameOverEvent;
+        [SerializeField]
         private PlayerWinController _playerWinController;
         [SerializeField]
         private LobbyManager _lobbyManager;
 
         [SerializeField]
         private Text _infoText;
+
+        private Dictionary<int, string> _players = new Dictionary<int, string>();
+        private Dictionary<int, int> _score = new Dictionary<int, int>();
 
         public string GetHighScorePlayerName()
         {
@@ -43,12 +49,36 @@ namespace Assets.Scripts
             _gameStartEvent.OnRaise += GameStart;
             _playerScored.OnRaise += PlayerScoredClientRpc;
             _playerWinController.gameObject.SetActive(false);
+            _gameOverEvent.OnRaise += OnGameOver;
         }
 
         private void OnDisable()
         {
             _gameStartEvent.OnRaise -= GameStart;
             _playerScored.OnRaise -= PlayerScoredClientRpc;
+            _gameOverEvent.OnRaise -= OnGameOver;
+        }
+
+        [ServerRpc]
+        private void OnGameOverServerRpc()
+        {
+            int idPlayerHighScore = GetIdPlayerHighScore();
+            ShowWinPanelClientRpc(_players[idPlayerHighScore]);
+        }
+
+        private void OnGameOver()
+        {
+            if (NetworkManager.Singleton.IsHost)
+            {
+                OnGameOverServerRpc();
+            }
+        }
+
+        private int GetIdPlayerHighScore()
+        {
+            var highScorePlayerId = _score.Aggregate((max, kvp) => kvp.Value > max.Value ? kvp : max);
+
+            return highScorePlayerId.Key;
         }
 
         private async void GameStart()
@@ -57,32 +87,16 @@ namespace Assets.Scripts
             {
                 Lobby lobby = await _lobbyManager.GetLobby(_lobbyManager.JoinedLobbyId);
 
-                //int index = 0;
-                //foreach (var player in lobby.Players)
-                //{
-                //    string playerName = string.Empty;
-                //    //TODO: change for player's name
-                //    ulong clientId = NetworkManager.Singleton.ConnectedClientsList[index].ClientId;
-                //    SetupPlayerScoreUIClientRpc(index, clientId, playerName);
-                //}
-
-                //for (int i = 0; i < lobby.Players.Count; i++)
-                //{
-                //    string playerName = lobby.Players[i].Data["PlayerName"].Value;
-                //    string clientId = lobby.Players[i].Id;
-                //    SetupPlayerScoreUIClientRpc(i, clientId, playerName);
-                //}
-
                 for (int i = 0; i < NetworkManager.Singleton.ConnectedClientsList.Count; i++)
                 {
                     NetworkClient networkClient = NetworkManager.Singleton.ConnectedClientsList[i];
-                    //int index = NetworkManager.Singleton.ConnectedClientsList, x => x. == networkClient);
                     int index = Array.FindIndex(NetworkManager.Singleton.ConnectedClientsList.ToArray(), x => x == networkClient);
                     string playerName = lobby.Players[index].Data["PlayerName"].Value;
-                    //string playerName = lobby.Players[i].Data["PlayerName"].Value;
-                    //TODO: change for player's name
                     ulong clientId = networkClient.ClientId;
+
                     SetupPlayerScoreUIClientRpc(i, (int)clientId, playerName);
+                    _players.Add((int)clientId, playerName);
+                    _score.Add((int)clientId, 0);
                 }
             }
         }
@@ -91,14 +105,24 @@ namespace Assets.Scripts
         private void PlayerScoredClientRpc(int playerId)
         {
             Array.Find(_playerScoreUIControllers, x => x.PlayerId.Equals(playerId)).AddPoint();
+
+            if (NetworkManager.Singleton.IsHost)
+            {
+                _score[playerId] = _score[playerId] + 1;
+            }
         }
 
         [ClientRpc]
-        private void SetupPlayerScoreUIClientRpc(int index, int clientId, string playerName)
+        private void SetupPlayerScoreUIClientRpc(int index, int playerId, string playerName)
         {
-            _playerScoreUIControllers[index].Setup(clientId, playerName);
-            //_infoText.text = $"index {index}, clientId {clientId}";
-            //Debug.LogError($"index {index}, clientId {clientId}");
+            _playerScoreUIControllers[index].Setup(playerId, playerName);
+        }
+
+        [ClientRpc]
+        private void ShowWinPanelClientRpc(string playerName)
+        {
+            _playerWinController.gameObject.SetActive(true);
+            _playerWinController.PlayerWin(playerName);
         }
     }
 }

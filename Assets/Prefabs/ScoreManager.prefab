@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3064028794
+  GlobalObjectIdHash: 656399883
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -72,4 +72,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   _playerScored: {fileID: 11400000, guid: f063fcba051b3ac46b6a5e94166c8395, type: 2}
+  _gameOverEvent: {fileID: 11400000, guid: 168bd7338817f194db7f0c29d728081b, type: 2}
   _playerWinController: {fileID: 0}
+  _lobbyManager: {fileID: 11400000, guid: 872f25c6295727d459df34fb4d38a167, type: 2}
+  _infoText: {fileID: 0}

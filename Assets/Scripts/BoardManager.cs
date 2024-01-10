@@ -22,16 +22,13 @@ namespace Assets.Scripts
         private GameEvent _nextTurnEvent;
         [SerializeField]
         private IntGameEvent _playerScored;
-        //[SerializeField]
-        //private PlayerWinController _playerWinController;
-        //[SerializeField]
-        //private ScoreManager _scoreManager;
-
-        //[SerializeField]
-        //private Button _spawnBoardButton;
+        [SerializeField]
+        private GameEvent _gameOverEvent;
 
         private List<int> _randomNumberList = new List<int>();
         private List<int> _activeTilesIndex = new List<int>();
+
+        //private int _testNumber = 0;
 
         private void OnEnable()
         {
@@ -57,7 +54,6 @@ namespace Assets.Scripts
 
         public void Initialize()
         {
-            Debug.Log("Initialize");
             ShowContentClientRpc();
 
             if (NetworkManager.Singleton.IsServer)
@@ -69,7 +65,6 @@ namespace Assets.Scripts
         [ServerRpc]
         public void CreateBoardServerRpc()
         {
-            Debug.Log("CreateBoard");
             for (int i = 0; i < _tilesAmount / 2; i++)
             {
                 _randomNumberList.Add(i);
@@ -83,7 +78,6 @@ namespace Assets.Scripts
         [ClientRpc]
         private void DisplayBoardClientRpc(int[] randomNumberList)
         {
-            Debug.Log("DisplayBoardClientRpc");
             for (int i = 0; i < _tilesAmount; i++)
             {
                 _tileControllers[i].Initialize(randomNumberList[i]);
@@ -111,7 +105,7 @@ namespace Assets.Scripts
         {
             if (_activeTilesIndex.Count < 2)
             {
-                PressTileClientRpc(localClientId, tileControllerIndex);
+                PressTileClientRpc(tileControllerIndex);
 
                 _activeTilesIndex.Add(_tileControllers[tileControllerIndex].TileIndex);
 
@@ -126,20 +120,21 @@ namespace Assets.Scripts
         {
             if (firstIndex == secondIndex)
             {
-                Debug.Log("Correct");
+                //_testNumber++;
+
                 _playerScored.Raise(localClientId);
                 await Task.Delay(1000);
                 LockTilesClientRpc(firstIndex);
 
                 if (Array.FindAll(_tileControllers, x => !x.IsDone).Length == 0)
+                //if (_testNumber == 3)
                 {
-                    OnWinGameClientRpc("Kim");
-                    //OnWinGameClientRpc(_scoreManager.GetHighScorePlayerName());
+                    Debug.Log("Win");
+                    OnGameOverClientRpc();
                 }
             }
             else
             {
-                Debug.Log("incorrect");
                 await Task.Delay(1000);
                 HideContentClientRpc();
                 _nextTurnEvent.Raise();
@@ -159,7 +154,7 @@ namespace Assets.Scripts
         }
 
         [ClientRpc]
-        private void PressTileClientRpc(int localClientId, int tileControllerIndex)
+        private void PressTileClientRpc(int tileControllerIndex)
         {
             TileController tileController = _tileControllers[tileControllerIndex];
             tileController.ShowTile();
@@ -168,7 +163,6 @@ namespace Assets.Scripts
         [ClientRpc]
         private void ShowContentClientRpc()
         {
-            Debug.Log("ShowContentClientRpc");
             _gameStartEvent.Raise();
             _content.gameObject.SetActive(true);
         }
@@ -183,11 +177,9 @@ namespace Assets.Scripts
         }
 
         [ClientRpc]
-        private void OnWinGameClientRpc(string winClientId)
+        private void OnGameOverClientRpc()
         {
-            Debug.Log("OnWinGameClientRpc");
-            //_playerWinController.gameObject.SetActive(true);
-            //_playerWinController.PlayerWin(winClientId);
+            _gameOverEvent.Raise();
         }
     }
 }

@@ -89,6 +89,9 @@ namespace Assets.Scripts
         {
             _playerId = AuthenticationService.Instance.PlayerId;
             _playerReadyTickGameObject.SetActive(false);
+
+            Debug.LogError($"_lobbyManager.JoinedLobbyId {_lobbyManager.JoinedLobbyId}");
+
             _joinedLobby = await RefreshPlayersList();
 
             _lobbyName.text = _joinedLobby.Name;
@@ -198,7 +201,6 @@ namespace Assets.Scripts
 
         private void LoadGameScene()
         {
-            Debug.Log($"LoadGameScene NetworkManager.Singleton.IsServer {NetworkManager.Singleton.IsServer}");
             string m_SceneName = "GameScene";
             if (NetworkManager.Singleton.IsServer && !string.IsNullOrEmpty(m_SceneName))
             {

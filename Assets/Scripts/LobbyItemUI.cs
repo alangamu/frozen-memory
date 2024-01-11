@@ -23,11 +23,11 @@ namespace Assets.Scripts
 
         public async void JoinLobby()
         {
-            JoinLobbyByIdOptions options = new JoinLobbyByIdOptions();
-            options.Player = _lobbyManager.CreatePlayer();
-
-            Lobby joinedLobby = await _lobbyManager.JoinLobby(_lobbyId, options);
-
+            JoinLobbyByIdOptions options = new()
+            {
+                Player = _lobbyManager.CreatePlayer()
+            };
+            await _lobbyManager.JoinLobby(_lobbyId, options);
             if (TryGetComponent(out SceneTransition sceneTransition))
             {
                 sceneTransition.PerformTransition();

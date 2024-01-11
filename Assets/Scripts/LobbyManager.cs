@@ -142,14 +142,15 @@ namespace Assets.Scripts
         {
             try
             {
+                _joinedLobbyId = lobbyId;
                 Lobby _joinedLobby = await LobbyService.Instance.JoinLobbyByIdAsync(lobbyId, options);
-                _joinedLobbyId = _joinedLobby.Id;
+                //_joinedLobbyId = _joinedLobby.Id;
                 _hostId = string.Empty;
                 return _joinedLobby;
             }
             catch (LobbyServiceException e)
             {
-                Debug.Log(e);
+                Debug.LogError(e);
                 return null;
             }
         }

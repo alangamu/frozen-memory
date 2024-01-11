@@ -103,6 +103,8 @@ namespace Assets.Scripts
         [ServerRpc(RequireOwnership = false)]
         private void PressTileServerRpc(int localClientId, int tileControllerIndex)
         {
+            //TODO: Fix double click
+
             if (_activeTilesIndex.Count < 2)
             {
                 PressTileClientRpc(tileControllerIndex);

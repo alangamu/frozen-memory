@@ -16,44 +16,67 @@ namespace Assets.Scripts
         [SerializeField]
         private GameEvent _startCountdown;
         [SerializeField]
-        private GameEvent _endTurn;
+        private GameEvent _stopCountdown;
+        //[SerializeField]
+        //private GameEvent _cancelCountdown;
+        [SerializeField]
+        private GameEvent _timeExpiredEvent;
 
         private float _movementTime = 0f;
+        private bool _isRunning = true;
 
         private void OnEnable()
         {
-            _transformToMove.gameObject.SetActive(false);
             _startCountdown.OnRaise += StartCountdown;
+            _stopCountdown.OnRaise += StopCountdown;
         }
 
         private void OnDisable()
         {
             _startCountdown.OnRaise -= StartCountdown;
+            _stopCountdown.OnRaise -= StopCountdown;
+        }
+
+        private void StopCountdown()
+        {
+            Debug.Log("Cancel Timer");
+            _isRunning = false;
         }
 
         private void Awake()
         {
+            _transformToMove.position = _initialPosition;
             _movementTime = _turnTime.Value;
         }
 
         private async void StartCountdown()
         {
-            _transformToMove.gameObject.SetActive(true);
-            _transformToMove.position = _initialPosition;
+            _isRunning = true;
+            Debug.Log("StartCountdown Timer");
+
+            _transformToMove.localPosition = _initialPosition;
 
             float elapsedTime = 0f;
 
             while (elapsedTime < _movementTime)
             {
-                _transformToMove.position = Vector3.Lerp(_initialPosition, _finalPosition, elapsedTime / _movementTime);
+                if (!_isRunning)
+                {
+                    return;
+                }
+
+                _transformToMove.localPosition = Vector3.Lerp(_initialPosition, _finalPosition, elapsedTime / _movementTime);
                 elapsedTime += Time.deltaTime;
                 await Task.Yield();
             }
 
-            _transformToMove.position = _finalPosition;
+            _transformToMove.localPosition = _finalPosition;
 
             Debug.Log("Movimiento completado");
-            _endTurn.Raise();
+            if (_isRunning)
+            {
+                _timeExpiredEvent.Raise();
+            }
         }
     }
 }

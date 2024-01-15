@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -8,74 +7,22 @@ namespace Assets.Scripts
     public class GameManager : NetworkBehaviour
     {
         [SerializeField]
-        private GameEvent _nextTurnEvent;
-        [SerializeField]
-        private GameEvent _gameStartEvent;
-        [SerializeField]
-        private IntVariable _activePlayerId;
-        [SerializeField]
-        private BoardManager _boardManager;
-
-        private NetworkVariable<int> _activeClientId = new NetworkVariable<int>(9);
-        private NetworkVariable<int> _activePlayerIndex = new NetworkVariable<int>(9);
-
-        private List<ulong> _clientsIdList;
-
-        private void OnEnable()
-        {
-            _nextTurnEvent.OnRaise += NextTurn;
-            _gameStartEvent.OnRaise += GameStart;
-            _activeClientId.OnValueChanged += NextPlayerTurn;
-        }
-
-        private void OnDisable()
-        {
-            _nextTurnEvent.OnRaise -= NextTurn;
-            _gameStartEvent.OnRaise -= GameStart;
-            _activeClientId.OnValueChanged -= NextPlayerTurn;
-        }
-
-        private void NextPlayerTurn(int previousValue, int newValue)
-        {
-            _activePlayerId.SetValue(_activeClientId.Value);
-        }
-
-        private void GameStart()
-        {
-            _clientsIdList = new List<ulong>();
-
-            if (NetworkManager.Singleton.IsHost)
-            {
-                foreach (var key in NetworkManager.ConnectedClients.Keys)
-                {
-                    _clientsIdList.Add(key);
-                }
-
-                _activePlayerIndex.Value = (int)_clientsIdList[Random.Range(0, _clientsIdList.Count)];
-                _activeClientId.Value = _activePlayerIndex.Value;
-            }
-        }
-
-        private void NextTurn()
-        {
-            _activePlayerIndex.Value++;
-            
-            if (_activePlayerIndex.Value == _clientsIdList.Count)
-            {
-                _activePlayerIndex.Value = 0;
-            }
-
-            _activeClientId.Value = (int)_clientsIdList[_activePlayerIndex.Value];
-        }
+        private GameEvent _initializeEvent;
 
         private async void Start()
         {
             //TODO: listen to loaded clients connected or something like that
             if (NetworkManager.Singleton.IsServer)
             {
-                await Task.Delay(5000);
-                _boardManager.Initialize();
+                await Task.Delay(3000);
+                InitializeClientRpc();
             }
         }
-    }
+
+        [ClientRpc]
+        private void InitializeClientRpc()
+        {
+            _initializeEvent.Raise();
+        }
+   }
 }

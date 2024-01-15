@@ -10,6 +10,7 @@ namespace Assets.Scripts
 
         public void Raise()
         {
+            //Debug.Log($"Event Raised {name}");
             OnRaise?.Invoke();
         }
     }

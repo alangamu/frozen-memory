@@ -16,22 +16,22 @@ namespace Assets.Scripts
         [SerializeField]
         private Transform _turnIndicator;
         [SerializeField]
+        private Transform _turnIndicatorText;
+        [SerializeField]
         private Color _defaultColor;
         [SerializeField]
         private Color _ownerColor;
         [SerializeField]
         private Image _background;
         [SerializeField]
-        private IntVariable _activePlayerIdVariable;
+        //private IntVariable _activePlayerIdVariable;
+        private IntGameEvent _beginPlayerTurnEvent;
+        [SerializeField]
+        private IntGameEvent _playerScored;
 
         private int _score = 0;
         private int _playerId;
-
-        public void AddPoint()
-        {
-            _score++;
-            _scoreText.text = _score.ToString();
-        }
+        private bool _isOwner;
 
         public void Setup(int playerId, string playerName)
         {
@@ -40,11 +40,12 @@ namespace Assets.Scripts
             gameObject.SetActive(true);
             _scoreText.text = _score.ToString();
 
-            bool isOwner = (int)NetworkManager.Singleton.LocalClientId == _playerId;
+            _isOwner = (int)NetworkManager.Singleton.LocalClientId == _playerId;
 
-            _background.color = isOwner ? _ownerColor : _defaultColor;
-            gameObject.transform.localScale = isOwner ? Vector3.one * 0.6f : Vector3.one * 0.5f;
-            _turnIndicator.gameObject.SetActive(_activePlayerIdVariable.Value == _playerId);
+            _background.color = _isOwner ? _ownerColor : _defaultColor;
+            gameObject.transform.localScale = _isOwner ? Vector3.one * 0.6f : Vector3.one * 0.5f;
+            _turnIndicator.gameObject.SetActive(false);
+            _turnIndicatorText.gameObject.SetActive(false);
         }
 
         private void Start()
@@ -54,16 +55,31 @@ namespace Assets.Scripts
 
         private void OnEnable()
         {
-            _activePlayerIdVariable.OnValueChanged += ActivePlayerChanged;
+            _beginPlayerTurnEvent.OnRaise += ActivePlayerChanged;
+            //_activePlayerIdVariable.OnValueChanged += ActivePlayerChanged;
+            _playerScored.OnRaise += PlayerScored;
         }
 
         private void OnDisable()
         {
-            _activePlayerIdVariable.OnValueChanged -= ActivePlayerChanged;
+            _beginPlayerTurnEvent.OnRaise -= ActivePlayerChanged;
+            _playerScored.OnRaise -= PlayerScored;
+        }
+
+        private void PlayerScored(int playerId)
+        {
+            if (playerId == _playerId)
+            {
+                _score++;
+                _scoreText.text = _score.ToString();
+
+                //TODO: add some effect
+            }
         }
 
         private void ActivePlayerChanged(int activePlayerId)
         {
+            _turnIndicatorText.gameObject.SetActive(_isOwner);
             _turnIndicator.gameObject.SetActive(activePlayerId == _playerId);
         }
     }

@@ -38,13 +38,13 @@ namespace Assets.Scripts
             //    _infoText.text = "Client";
             //});
 
-            _spawnBoardButton.onClick.AddListener(() =>
-            {
-                //_buttonsPanelTransform.gameObject.SetActive(false);
-                _spawnBoardButton.gameObject.SetActive(false);
+            //_spawnBoardButton.onClick.AddListener(() =>
+            //{
+            //    //_buttonsPanelTransform.gameObject.SetActive(false);
+            //    _spawnBoardButton.gameObject.SetActive(false);
 
-                _boardManager.Initialize();
-            });
+            //    _boardManager.Initialize();
+            //});
         }
 
         //private async void Start()

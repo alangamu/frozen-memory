@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3076469738320561152}
   - component: {fileID: 1225653904747533513}
   - component: {fileID: 3323247357491047450}
+  - component: {fileID: 6265963131111257827}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -65,7 +66,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbebbb7cc86f8ab4782122ff2414e44f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _nextTurnEvent: {fileID: 11400000, guid: efa39be23d081f04793957bd589ac9e9, type: 2}
+  _initializeEvent: {fileID: 11400000, guid: 9f768b6465edc8645939d8957f80f6e7, type: 2}
+--- !u!114 &6265963131111257827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8158082796970067636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4170b59a67ad3545a92e8dbf1e1ad8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   _gameStartEvent: {fileID: 11400000, guid: aed0e2de18dd72740af8cf09ef41815e, type: 2}
+  _turnExpiredEvent: {fileID: 11400000, guid: 9a9d84aed3130db4cb274a9cb608b726, type: 2}
+  _endTurnEvent: {fileID: 11400000, guid: efa39be23d081f04793957bd589ac9e9, type: 2}
+  _restartTurnEvent: {fileID: 11400000, guid: 0afc57118eb89e64199063ef428d099b, type: 2}
+  _beginPlayerTurnEvent: {fileID: 11400000, guid: c4a3beb1ebf3c5546b4810eecab70792, type: 2}
   _activePlayerId: {fileID: 11400000, guid: ae6dc1fcf325f504285c5e9ce8a66bae, type: 2}
-  _boardManager: {fileID: 0}

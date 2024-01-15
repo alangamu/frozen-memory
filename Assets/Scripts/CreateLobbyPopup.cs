@@ -15,8 +15,6 @@ namespace Assets.Scripts
         {
             await _lobbyManager.CreateLobby(_lobbyNameText.text);
 
-            //NetworkManager.Singleton.StartHost();
-
             if (TryGetComponent(out Popup popup))
             {
                 popup.Close();

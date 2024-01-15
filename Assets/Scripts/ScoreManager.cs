@@ -4,14 +4,13 @@ using System.Linq;
 using Unity.Netcode;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Assets.Scripts
 {
     public class ScoreManager : NetworkBehaviour
     {
         [SerializeField]
-        private GameEvent _gameStartEvent;
+        private GameEvent _initializeEvent;
         [SerializeField]
         private PlayerScoreUIController[] _playerScoreUIControllers;
         [SerializeField]
@@ -22,9 +21,6 @@ namespace Assets.Scripts
         private PlayerWinController _playerWinController;
         [SerializeField]
         private LobbyManager _lobbyManager;
-
-        [SerializeField]
-        private Text _infoText;
 
         private Dictionary<int, string> _players = new Dictionary<int, string>();
         private Dictionary<int, int> _score = new Dictionary<int, int>();
@@ -46,7 +42,7 @@ namespace Assets.Scripts
 
         private void OnEnable()
         {
-            _gameStartEvent.OnRaise += GameStart;
+            _initializeEvent.OnRaise += Initialize;
             _playerScored.OnRaise += PlayerScoredClientRpc;
             _playerWinController.gameObject.SetActive(false);
             _gameOverEvent.OnRaise += OnGameOver;
@@ -54,23 +50,17 @@ namespace Assets.Scripts
 
         private void OnDisable()
         {
-            _gameStartEvent.OnRaise -= GameStart;
+            _initializeEvent.OnRaise -= Initialize;
             _playerScored.OnRaise -= PlayerScoredClientRpc;
             _gameOverEvent.OnRaise -= OnGameOver;
-        }
-
-        [ServerRpc]
-        private void OnGameOverServerRpc()
-        {
-            int idPlayerHighScore = GetIdPlayerHighScore();
-            ShowWinPanelClientRpc(_players[idPlayerHighScore]);
         }
 
         private void OnGameOver()
         {
             if (NetworkManager.Singleton.IsHost)
             {
-                OnGameOverServerRpc();
+                int idPlayerHighScore = GetIdPlayerHighScore();
+                ShowWinPanelClientRpc(_players[idPlayerHighScore]);
             }
         }
 
@@ -81,7 +71,7 @@ namespace Assets.Scripts
             return highScorePlayerId.Key;
         }
 
-        private async void GameStart()
+        private async void Initialize()
         {
             if (NetworkManager.Singleton.IsHost)
             {
@@ -104,8 +94,6 @@ namespace Assets.Scripts
         [ClientRpc]
         private void PlayerScoredClientRpc(int playerId)
         {
-            Array.Find(_playerScoreUIControllers, x => x.PlayerId.Equals(playerId)).AddPoint();
-
             if (NetworkManager.Singleton.IsHost)
             {
                 _score[playerId] = _score[playerId] + 1;

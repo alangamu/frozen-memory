@@ -9,6 +9,8 @@ namespace Assets.Scripts
     public class BoardManager : NetworkBehaviour
     {
         [SerializeField]
+        private IntVariable _activePlayerId;
+        [SerializeField]
         private int _tilesAmount = 50;
         [SerializeField] 
         private Sprite[] _images;
@@ -19,16 +21,20 @@ namespace Assets.Scripts
         [SerializeField]
         private GameEvent _gameStartEvent;
         [SerializeField]
-        private GameEvent _nextTurnEvent;
+        private GameEvent _initializeEvent;
+        [SerializeField]
+        private GameEvent _endTurnEvent;
         [SerializeField]
         private IntGameEvent _playerScored;
         [SerializeField]
         private GameEvent _gameOverEvent;
+        [SerializeField]
+        private GameEvent _stopCountdown;
+        [SerializeField]
+        private GameEvent _restartTurnEvent;
 
         private List<int> _randomNumberList = new List<int>();
         private List<int> _activeTilesIndex = new List<int>();
-
-        //private int _testNumber = 0;
 
         private void OnEnable()
         {
@@ -36,6 +42,9 @@ namespace Assets.Scripts
             {
                 tileController.OnTileClicked += OnTileClicked;
             }
+
+            _endTurnEvent.OnRaise += EndTurn;
+            _initializeEvent.OnRaise += Initialize;
         }
 
         private void OnDisable()
@@ -44,15 +53,27 @@ namespace Assets.Scripts
             {
                 tileController.OnTileClicked -= OnTileClicked;
             }
+
+            _endTurnEvent.OnRaise -= EndTurn;
+            _initializeEvent.OnRaise -= Initialize;
+        }
+
+        private void EndTurn()
+        {
+            HideContentClientRpc();
+            _activeTilesIndex.Clear();
         }
 
         private void OnTileClicked(int localClientId, TileController tileController)
         {
-            var index = Array.FindIndex(_tileControllers, x => x == tileController);
-            PressTileServerRpc(localClientId, index);
+            if (_activePlayerId.Value == localClientId)
+            {
+                var index = Array.FindIndex(_tileControllers, x => x == tileController);
+                PressTileServerRpc(localClientId, index);
+            }
         }
 
-        public void Initialize()
+        private void Initialize()
         {
             ShowContentClientRpc();
 
@@ -78,11 +99,24 @@ namespace Assets.Scripts
         [ClientRpc]
         private void DisplayBoardClientRpc(int[] randomNumberList)
         {
+            int localPlayerId = (int)NetworkManager.Singleton.LocalClientId;
+
             for (int i = 0; i < _tilesAmount; i++)
             {
-                _tileControllers[i].Initialize(randomNumberList[i]);
+                _tileControllers[i].Initialize(randomNumberList[i], localPlayerId);
                 _tileControllers[i].Initialize(_images[randomNumberList[i]]);
             }
+
+            StartGame();
+        }
+
+        private async void StartGame()
+        {
+            await Task.Delay(2000);
+
+            HideContentClientRpc();
+
+            StartGameClientRpc();
         }
 
         private void Shuffle()
@@ -113,7 +147,11 @@ namespace Assets.Scripts
 
                 if (_activeTilesIndex.Count == 2)
                 {
+                    CancelCountdownClientRpc();
+
+                    //TODO: resolve the double clicking
                     Resolve(localClientId, _activeTilesIndex[0], _activeTilesIndex[1]);
+                    _activeTilesIndex.Clear();
                 }
             }
         }
@@ -122,27 +160,54 @@ namespace Assets.Scripts
         {
             if (firstIndex == secondIndex)
             {
-                //_testNumber++;
+                PlayerScoredClientRpc(localClientId);
 
-                _playerScored.Raise(localClientId);
                 await Task.Delay(1000);
                 LockTilesClientRpc(firstIndex);
 
                 if (Array.FindAll(_tileControllers, x => !x.IsDone).Length == 0)
-                //if (_testNumber == 3)
                 {
-                    Debug.Log("Win");
-                    OnGameOverClientRpc();
+                    EndGameClientRpc();
+                    return;
                 }
+
+                RestartTurnClientRpc();
             }
             else
             {
                 await Task.Delay(1000);
-                HideContentClientRpc();
-                _nextTurnEvent.Raise();
+                EndTurnClientRpc();
             }
+        }
 
-            _activeTilesIndex.Clear();
+        [ClientRpc]
+        private void PlayerScoredClientRpc(int localPlayerId)
+        {
+            _playerScored.Raise(localPlayerId);
+        }
+
+        [ClientRpc]
+        private void CancelCountdownClientRpc()
+        {
+            _stopCountdown.Raise();
+        }
+
+        [ClientRpc]
+        private void RestartTurnClientRpc()
+        {
+            _restartTurnEvent.Raise();
+        }
+
+        [ClientRpc]
+        private void EndTurnClientRpc()
+        {
+            _endTurnEvent.Raise();
+        }
+
+        [ClientRpc]
+        private void StartGameClientRpc()
+        {
+            _gameStartEvent.Raise();
         }
 
         [ClientRpc]
@@ -165,7 +230,6 @@ namespace Assets.Scripts
         [ClientRpc]
         private void ShowContentClientRpc()
         {
-            _gameStartEvent.Raise();
             _content.gameObject.SetActive(true);
         }
 
@@ -179,7 +243,7 @@ namespace Assets.Scripts
         }
 
         [ClientRpc]
-        private void OnGameOverClientRpc()
+        private void EndGameClientRpc()
         {
             _gameOverEvent.Raise();
         }

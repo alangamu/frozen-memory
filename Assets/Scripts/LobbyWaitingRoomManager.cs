@@ -55,8 +55,6 @@ namespace Assets.Scripts
         {
             _isPlayerReady = !_isPlayerReady;
 
-            Debug.Log($"_isPlayerReady {_isPlayerReady}");
-
             _playerReadyTickGameObject.SetActive(_isPlayerReady);
             _readyButtonText.text = _isPlayerReady ? "Cancel" : "Ready";
 
@@ -74,8 +72,6 @@ namespace Assets.Scripts
                 };
 
                 _joinedLobby = await LobbyService.Instance.UpdatePlayerAsync(_lobbyManager.JoinedLobbyId, _playerId, options);
-
-                Debug.Log($"_joinedLobby.Data {_joinedLobby.Data[_keyStartGameVariable.Value].Value}");
             }
             catch (LobbyServiceException e)
             {
@@ -89,8 +85,6 @@ namespace Assets.Scripts
         {
             _playerId = AuthenticationService.Instance.PlayerId;
             _playerReadyTickGameObject.SetActive(false);
-
-            Debug.LogError($"_lobbyManager.JoinedLobbyId {_lobbyManager.JoinedLobbyId}");
 
             _joinedLobby = await RefreshPlayersList();
 

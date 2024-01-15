@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,41 +14,43 @@ namespace Assets.Scripts
         [SerializeField]
         private Image _tileImage;
         [SerializeField]
-        private IntVariable _activePlayerId;
-        [SerializeField]
         private Text _tileText;
         [SerializeField]
         private Transform _tileIsDone;
+        
+        //TODO: delete this field, just for debuging
+        [SerializeField]
+        private bool _isShowingIndex;
 
         private bool _isDone;
         private int _tileIndex;
         private Sprite _tileSprite;
 
-        public async void Initialize(Sprite tileSprite)
+        private int _localPlayerId;
+
+        public void Initialize(Sprite tileSprite)
         {
             _isDone = false;
             _tileIsDone.gameObject.SetActive(false);
             _tileSprite = tileSprite;
             ShowTile();
-            await Task.Delay(2000);
-            HideTile();
         }
 
-        public void Initialize(int tileNumber)
+        public void Initialize(int tileNumber, int localPlayerId)
         {
+            _localPlayerId = localPlayerId;
             _tileIndex = tileNumber;
-            //_tileText.text = tileNumber.ToString();
             _tileText.text = string.Empty;
+            
+            _tileText.text = _isShowingIndex ? tileNumber.ToString() : string.Empty;
         }
 
         public void PressButton()
         {
             if (!_isDone)
             {
-                if (_activePlayerId.Value == (int)NetworkManager.Singleton.LocalClientId)
-                {
-                    OnTileClicked?.Invoke(_activePlayerId.Value, this); 
-                }
+                Debug.Log($"TileController PressButton _localPlayerId {_localPlayerId}");
+                OnTileClicked?.Invoke(_localPlayerId, this); 
             }
         }
 

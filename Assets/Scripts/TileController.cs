@@ -1,5 +1,4 @@
 ﻿using System;
-using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -49,7 +48,6 @@ namespace Assets.Scripts
         {
             if (!_isDone)
             {
-                Debug.Log($"TileController PressButton _localPlayerId {_localPlayerId}");
                 OnTileClicked?.Invoke(_localPlayerId, this); 
             }
         }

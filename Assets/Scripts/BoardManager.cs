@@ -34,7 +34,7 @@ namespace Assets.Scripts
         private GameEvent _restartTurnEvent;
 
         private List<int> _randomNumberList = new List<int>();
-        private List<int> _activeTilesIndex = new List<int>();
+        private List<TileController> _activeTiles = new List<TileController>();
 
         private void OnEnable()
         {
@@ -61,7 +61,7 @@ namespace Assets.Scripts
         private void EndTurn()
         {
             HideContentClientRpc();
-            _activeTilesIndex.Clear();
+            _activeTiles.Clear();
         }
 
         private void OnTileClicked(int localClientId, TileController tileController)
@@ -137,21 +137,26 @@ namespace Assets.Scripts
         [ServerRpc(RequireOwnership = false)]
         private void PressTileServerRpc(int localClientId, int tileControllerIndex)
         {
-            //TODO: Fix double click
-
-            if (_activeTilesIndex.Count < 2)
+            if (_activeTiles.Count < 2)
             {
+                if (_activeTiles.Count == 1)
+                {
+                    //double click or click the same tile
+                    if (_activeTiles.Contains(_tileControllers[tileControllerIndex]))
+                    {
+                        return;
+                    }
+                }
+
                 PressTileClientRpc(tileControllerIndex);
 
-                _activeTilesIndex.Add(_tileControllers[tileControllerIndex].TileIndex);
+                _activeTiles.Add(_tileControllers[tileControllerIndex]);
 
-                if (_activeTilesIndex.Count == 2)
+                if (_activeTiles.Count == 2)
                 {
                     CancelCountdownClientRpc();
 
-                    //TODO: resolve the double clicking
-                    Resolve(localClientId, _activeTilesIndex[0], _activeTilesIndex[1]);
-                    _activeTilesIndex.Clear();
+                    Resolve(localClientId, _activeTiles[0].TileIndex, _activeTiles[1].TileIndex);
                 }
             }
         }
@@ -178,6 +183,8 @@ namespace Assets.Scripts
                 await Task.Delay(1000);
                 EndTurnClientRpc();
             }
+
+            _activeTiles.Clear();
         }
 
         [ClientRpc]

@@ -24,7 +24,6 @@ namespace Assets.Scripts
         [SerializeField]
         private Image _background;
         [SerializeField]
-        //private IntVariable _activePlayerIdVariable;
         private IntGameEvent _beginPlayerTurnEvent;
         [SerializeField]
         private IntGameEvent _playerScored;
@@ -56,7 +55,6 @@ namespace Assets.Scripts
         private void OnEnable()
         {
             _beginPlayerTurnEvent.OnRaise += ActivePlayerChanged;
-            //_activePlayerIdVariable.OnValueChanged += ActivePlayerChanged;
             _playerScored.OnRaise += PlayerScored;
         }
 

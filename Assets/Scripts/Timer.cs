@@ -17,8 +17,6 @@ namespace Assets.Scripts
         private GameEvent _startCountdown;
         [SerializeField]
         private GameEvent _stopCountdown;
-        //[SerializeField]
-        //private GameEvent _cancelCountdown;
         [SerializeField]
         private GameEvent _timeExpiredEvent;
 
@@ -39,7 +37,6 @@ namespace Assets.Scripts
 
         private void StopCountdown()
         {
-            Debug.Log("Cancel Timer");
             _isRunning = false;
         }
 
@@ -52,7 +49,6 @@ namespace Assets.Scripts
         private async void StartCountdown()
         {
             _isRunning = true;
-            Debug.Log("StartCountdown Timer");
 
             _transformToMove.localPosition = _initialPosition;
 
@@ -72,7 +68,6 @@ namespace Assets.Scripts
 
             _transformToMove.localPosition = _finalPosition;
 
-            Debug.Log("Movimiento completado");
             if (_isRunning)
             {
                 _timeExpiredEvent.Raise();

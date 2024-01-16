@@ -81,6 +81,8 @@ namespace Assets.Scripts
                 {
                     NetworkClient networkClient = NetworkManager.Singleton.ConnectedClientsList[i];
                     int index = Array.FindIndex(NetworkManager.Singleton.ConnectedClientsList.ToArray(), x => x == networkClient);
+                    
+                    //TODO: make a stringVariable for PlayerName
                     string playerName = lobby.Players[index].Data["PlayerName"].Value;
                     ulong clientId = networkClient.ClientId;
 

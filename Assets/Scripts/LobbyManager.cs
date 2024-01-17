@@ -25,9 +25,13 @@ namespace Assets.Scripts
         private StringVariable _keyStartGameVariable;
         [SerializeField]
         private BoolVariable _isStartupLoaded;
+        [SerializeField]
+        private IntVariable _lobbyHeartbeatSeconds;
 
         private string _joinedLobbyId;
         private string _hostId;
+
+        private bool _keepLobbyAlive = false;
 
         public async Task SignIn()
         {
@@ -41,6 +45,11 @@ namespace Assets.Scripts
             {
                 await AuthenticationService.Instance.SignInAnonymouslyAsync();
             }
+        }
+
+        public void StopHeartbeat()
+        {
+            _keepLobbyAlive = false;
         }
 
         public async Task<string> StartHostWithRelay(int maxConnections = 3)
@@ -79,6 +88,8 @@ namespace Assets.Scripts
                 Lobby _joinedLobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers, options);
                 _joinedLobbyId = _joinedLobby.Id;
                 _hostId = _joinedLobby.HostId;
+                _keepLobbyAlive = true;
+                Heartbeat(_joinedLobbyId);
             }
             catch (LobbyServiceException e)
             {
@@ -187,6 +198,15 @@ namespace Assets.Scripts
                                     }
                                 });
             return player;
+        }
+
+        private async void Heartbeat(string lobbyId)
+        {
+            while (_keepLobbyAlive)
+            {
+                await LobbyService.Instance.SendHeartbeatPingAsync(lobbyId);
+                await Task.Delay(1000 * _lobbyHeartbeatSeconds.Value);
+            }
         }
     }
 }

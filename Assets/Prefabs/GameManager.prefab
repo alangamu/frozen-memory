@@ -67,6 +67,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _initializeEvent: {fileID: 11400000, guid: 9f768b6465edc8645939d8957f80f6e7, type: 2}
+  _lobbyManager: {fileID: 11400000, guid: 872f25c6295727d459df34fb4d38a167, type: 2}
 --- !u!114 &6265963131111257827
 MonoBehaviour:
   m_ObjectHideFlags: 0

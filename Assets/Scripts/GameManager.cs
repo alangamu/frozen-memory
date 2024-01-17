@@ -8,9 +8,12 @@ namespace Assets.Scripts
     {
         [SerializeField]
         private GameEvent _initializeEvent;
+        [SerializeField] 
+        private LobbyManager _lobbyManager;
 
         private async void Start()
         {
+            _lobbyManager.StopHeartbeat();
             //TODO: listen to loaded clients connected or something like that
             if (NetworkManager.Singleton.IsServer)
             {

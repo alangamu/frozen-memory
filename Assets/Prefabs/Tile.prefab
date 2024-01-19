@@ -607,7 +607,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _tileImage: {fileID: 393807673348185197}
-  _activePlayerId: {fileID: 11400000, guid: ae6dc1fcf325f504285c5e9ce8a66bae, type: 2}
   _tileText: {fileID: 3593600920160024662}
   _tileIsDone: {fileID: 4924324520974602938}
-  _isShowingIndex: 1
+  _isShowingIndex: 0

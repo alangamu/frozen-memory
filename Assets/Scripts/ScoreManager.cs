@@ -18,9 +18,12 @@ namespace Assets.Scripts
         [SerializeField]
         private GameEvent _gameOverEvent;
         [SerializeField]
-        private PlayerWinController _playerWinController;
-        [SerializeField]
         private LobbyManager _lobbyManager;
+        [SerializeField]
+        private Transform _winPanelTransform;
+
+        [SerializeField]
+        private PlayerWinUI[] _playerWinUIControllers;
 
         private Dictionary<int, string> _players = new Dictionary<int, string>();
         private Dictionary<int, int> _score = new Dictionary<int, int>();
@@ -44,7 +47,7 @@ namespace Assets.Scripts
         {
             _initializeEvent.OnRaise += Initialize;
             _playerScored.OnRaise += PlayerScoredClientRpc;
-            _playerWinController.gameObject.SetActive(false);
+            _winPanelTransform.gameObject.SetActive(false);
             _gameOverEvent.OnRaise += OnGameOver;
         }
 
@@ -57,10 +60,17 @@ namespace Assets.Scripts
 
         private void OnGameOver()
         {
+            _winPanelTransform.gameObject.SetActive(true);
+
             if (NetworkManager.Singleton.IsHost)
             {
-                int idPlayerHighScore = GetIdPlayerHighScore();
-                ShowWinPanelClientRpc(_players[idPlayerHighScore]);
+                int index = 1;
+                while (_score.Count > 0)
+                {
+                    int idPlayerHighScore = GetIdPlayerHighScore();
+                    ShowWinPanelClientRpc(_players[idPlayerHighScore], _score[idPlayerHighScore], index++);
+                    _score.Remove(idPlayerHighScore);
+                }
             }
         }
 
@@ -73,6 +83,11 @@ namespace Assets.Scripts
 
         private async void Initialize()
         {
+            foreach (var playerUIController in _playerWinUIControllers)
+            {
+                playerUIController.gameObject.SetActive(false);
+            }
+
             if (NetworkManager.Singleton.IsHost)
             {
                 Lobby lobby = await _lobbyManager.GetLobby(_lobbyManager.JoinedLobbyId);
@@ -109,10 +124,19 @@ namespace Assets.Scripts
         }
 
         [ClientRpc]
-        private void ShowWinPanelClientRpc(string playerName)
+        private void ShowWinPanelClientRpc(string playerName, int playerScore, int index)
         {
-            _playerWinController.gameObject.SetActive(true);
-            _playerWinController.PlayerWin(playerName);
+            _playerWinUIControllers[index].gameObject.SetActive(true);
+            _playerWinUIControllers[index].Initialize(playerName, playerScore, index);
+            //_playerWinController.gameObject.SetActive(true);
+            //_playerWinController.PlayerWin(playerName);
         }
+
+        //[ClientRpc]
+        //private void ShowWinPanelClientRpc(string playerName)
+        //{
+        //    _playerWinController.gameObject.SetActive(true);
+        //    _playerWinController.PlayerWin(playerName);
+        //}
     }
 }

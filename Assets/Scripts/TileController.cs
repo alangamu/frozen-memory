@@ -54,6 +54,7 @@ namespace Assets.Scripts
 
         public void ShowTile()
         {
+            _tileImage.gameObject.SetActive(true);
             _tileImage.sprite = _tileSprite;
         }
 
@@ -61,6 +62,7 @@ namespace Assets.Scripts
         {
             if(!_isDone)
             {
+                _tileImage.gameObject.SetActive(false);
                 _tileImage.sprite = null;
             }
         }
@@ -70,6 +72,7 @@ namespace Assets.Scripts
             _isDone = isDone;
             if (_isDone)
             {
+                _tileImage.gameObject.SetActive(false);
                 _tileIsDone.gameObject.SetActive(true);
             }
         }

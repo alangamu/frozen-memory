@@ -2293,6 +2293,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 150058, guid: c9789ce86bb79534e9f1a6999132ba71, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 11450300, guid: c9789ce86bb79534e9f1a6999132ba71, type: 3}
       propertyPath: m_Text
       value: Vandame
@@ -2682,6 +2686,10 @@ PrefabInstance:
       value: -360
       objectReference: {fileID: 0}
     - target: {fileID: 7257718400966321815, guid: c9789ce86bb79534e9f1a6999132ba71, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7257718400966321815, guid: c9789ce86bb79534e9f1a6999132ba71, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 1653057515
       objectReference: {fileID: 0}
@@ -2717,7 +2725,8 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7257718400966321815, guid: c9789ce86bb79534e9f1a6999132ba71, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

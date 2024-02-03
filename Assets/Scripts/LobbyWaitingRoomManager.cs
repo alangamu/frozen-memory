@@ -46,10 +46,15 @@ namespace Assets.Scripts
 
         public async void BackToLobby()
         {
-            //TODO: delete or handle lobby if i'm the host
+            if (_playerId.Equals(_lobbyManager.HostId))
+            {
+                await _lobbyManager.DeleteLobby(_lobbyManager.JoinedLobbyId);
+            }
+            else
+            {
+                await _lobbyManager.LeaveLobby(_joinedLobby.Id, _playerId);
 
-            await _lobbyManager.LeaveLobby(_joinedLobby.Id, _playerId);
-
+            }
             _sceneTransition.PerformTransition();
         }
 
@@ -103,6 +108,12 @@ namespace Assets.Scripts
         private async void Start()
         {
             _playerId = AuthenticationService.Instance.PlayerId;
+
+            if (_playerId.Equals(_lobbyManager.HostId))
+            {
+                _playerReadyButton.enabled = false;
+            }
+
             _playerReadyTickGameObject.SetActive(false);
 
             _joinedLobby = await RefreshPlayersList();
@@ -178,11 +189,13 @@ namespace Assets.Scripts
         private async void OnPlayerLeft(List<int> list)
         {
             _joinedLobby = await RefreshPlayersList();
+            _playerReadyButton.enabled = _joinedLobby.Players.Count > 1;
         }
 
         private async void OnPlayerJoined(List<LobbyPlayerJoined> list)
         {
             _joinedLobby = await RefreshPlayersList();
+            _playerReadyButton.enabled = true;
         }
 
         private async Task<Lobby> RefreshPlayersList()

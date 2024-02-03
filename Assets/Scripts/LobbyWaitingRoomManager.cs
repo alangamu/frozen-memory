@@ -44,11 +44,6 @@ namespace Assets.Scripts
         private Lobby _joinedLobby;
         private SceneTransition _sceneTransition;
 
-        private void Awake()
-        {
-            TryGetComponent(out _sceneTransition);
-        }
-
         public async void BackToLobby()
         {
             //TODO: delete or handle lobby if i'm the host
@@ -56,6 +51,21 @@ namespace Assets.Scripts
             await _lobbyManager.LeaveLobby(_joinedLobby.Id, _playerId);
 
             _sceneTransition.PerformTransition();
+        }
+
+        private void OnEnable()
+        {
+            _playerReadyButton.onClick.AddListener(PlayerReady);
+        }
+
+        private void OnDisable()
+        {
+            _playerReadyButton.onClick.RemoveAllListeners();
+        }
+
+        private void Awake()
+        {
+            TryGetComponent(out _sceneTransition);
         }
 
         public async void PlayerReady()
@@ -86,18 +96,12 @@ namespace Assets.Scripts
             }
 
             _waitingRoomPlayer.SetReady(_isPlayerReady);
-        }
 
-        //public override void OnNetworkSpawn()
-        //{
-        //    base.OnNetworkSpawn();
-        //    Debug.Log("OnNetworkSpawn");
-        //    AddPlayerServerRpc();
-        //}
+            await CheckStartGame();
+        }
 
         private async void Start()
         {
-            _playerReadyButton.onClick.AddListener(PlayerReady);
             _playerId = AuthenticationService.Instance.PlayerId;
             _playerReadyTickGameObject.SetActive(false);
 
@@ -141,9 +145,16 @@ namespace Assets.Scripts
 
         private async void OnOtherPlayerDataChanged(Dictionary<int, Dictionary<string, ChangedOrRemovedLobbyValue<PlayerDataObject>>> obj)
         {
+            Debug.Log($"OnOtherPlayerDataChanged -------");
+
+            await CheckStartGame();
+        }
+
+        private async Task CheckStartGame()
+        {
             _joinedLobby = await RefreshPlayersList();
 
-            Debug.Log($"OnOtherPlayerDataChanged -------");
+            Debug.Log($"CanStartGame -------");
 
             foreach (var player in _joinedLobby.Players)
             {

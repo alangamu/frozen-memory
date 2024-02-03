@@ -20,7 +20,7 @@ namespace Assets.Scripts
         {
             if (estado == PlayModeStateChange.EnteredEditMode)
             {
-                Resources.Load<BoolVariable>("IsStartupLoaded").SetValue(false);
+                Resources.Load<BoolVariable>("Variables/IsStartupLoaded").SetValue(false);
             }
         }
 #endif

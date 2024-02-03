@@ -1,4 +1,5 @@
-﻿using Ricimi;
+﻿using Assets.Scripts.ScriptableObjects;
+using Ricimi;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Netcode;
@@ -14,6 +15,8 @@ namespace Assets.Scripts
     public class LobbyWaitingRoomManager : NetworkBehaviour
     {
         [SerializeField]
+        private PlayersModel _playersController;
+        [SerializeField]
         private LobbyManager _lobbyManager;
         [SerializeField]
         private Text _lobbyName;
@@ -27,6 +30,10 @@ namespace Assets.Scripts
         private Text _readyButtonText;
         [SerializeField]
         private StringVariable _keyStartGameVariable;
+        [SerializeField]
+        private StringVariable _playerNameVariable;
+        [SerializeField]
+        private AnimatedButton _playerReadyButton;
 
         [SerializeField]
         private Canvas _lobbyCanvas;
@@ -81,8 +88,16 @@ namespace Assets.Scripts
             _waitingRoomPlayer.SetReady(_isPlayerReady);
         }
 
+        //public override void OnNetworkSpawn()
+        //{
+        //    base.OnNetworkSpawn();
+        //    Debug.Log("OnNetworkSpawn");
+        //    AddPlayerServerRpc();
+        //}
+
         private async void Start()
         {
+            _playerReadyButton.onClick.AddListener(PlayerReady);
             _playerId = AuthenticationService.Instance.PlayerId;
             _playerReadyTickGameObject.SetActive(false);
 
@@ -168,6 +183,8 @@ namespace Assets.Scripts
                 Destroy(item.gameObject);
             }
 
+            _playersController.CLearPlayers();
+
             foreach (var item in joinedLobby.Players)
             {
                 GameObject waitingRoomPlayerUIGameObject = Instantiate(_waitingRoomPlayerUIPrefab, _playersParentTranform);
@@ -176,7 +193,8 @@ namespace Assets.Scripts
                 {
                     if (item.Data.TryGetValue("PlayerName", out PlayerDataObject playerName))
                     {
-                        waitingRoomPlayerUI.Initialize(playerName.Value);
+                        waitingRoomPlayerUI.Initialize(playerName.Value, item.Id);
+                        _playersController.AddPlayer(item.Id, playerName.Value);
                     }
                     if (item.Data.TryGetValue("ready", out PlayerDataObject playerReady))
                     {

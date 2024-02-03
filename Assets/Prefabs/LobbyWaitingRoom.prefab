@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 562245847
+  GlobalObjectIdHash: 3696790945
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -66,6 +66,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c598999289c84a14fba52550d3301670, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playersController: {fileID: 11400000, guid: e4901a607448397409f07fb42dabf0f1, type: 2}
   _lobbyManager: {fileID: 11400000, guid: 872f25c6295727d459df34fb4d38a167, type: 2}
   _lobbyName: {fileID: 0}
   _waitingRoomPlayerUIPrefab: {fileID: 4846991233625952947, guid: a417f7118a3cfd74e952add00c6838d9, type: 3}
@@ -73,6 +74,8 @@ MonoBehaviour:
   _playerReadyTickGameObject: {fileID: 0}
   _readyButtonText: {fileID: 0}
   _keyStartGameVariable: {fileID: 11400000, guid: 1ae6988cbc1c72847b7e8298b39c4eeb, type: 2}
+  _playerNameVariable: {fileID: 11400000, guid: ace68e105c96ee84db72d4713f8a6b43, type: 2}
+  _playerReadyButton: {fileID: 0}
   _lobbyCanvas: {fileID: 0}
 --- !u!114 &8236593674690159346
 MonoBehaviour:

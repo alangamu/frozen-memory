@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1225653904747533513}
   - component: {fileID: 3323247357491047450}
   - component: {fileID: 6265963131111257827}
+  - component: {fileID: 216857030917469578}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -68,6 +69,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _initializeEvent: {fileID: 11400000, guid: 9f768b6465edc8645939d8957f80f6e7, type: 2}
   _lobbyManager: {fileID: 11400000, guid: 872f25c6295727d459df34fb4d38a167, type: 2}
+  _winScreenView: {fileID: 0}
+  _gameOverEvent: {fileID: 11400000, guid: 168bd7338817f194db7f0c29d728081b, type: 2}
+  _scoreManager: {fileID: 11400000, guid: 992df0f7384c2e74ba18c3fdfad4b1da, type: 2}
+  _playersManager: {fileID: 11400000, guid: e4901a607448397409f07fb42dabf0f1, type: 2}
+  _rematchEvent: {fileID: 11400000, guid: 3821a91444053c4458550d53c61f7436, type: 2}
+  _restartButton: {fileID: 0}
 --- !u!114 &6265963131111257827
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84,5 +91,21 @@ MonoBehaviour:
   _turnExpiredEvent: {fileID: 11400000, guid: 9a9d84aed3130db4cb274a9cb608b726, type: 2}
   _endTurnEvent: {fileID: 11400000, guid: efa39be23d081f04793957bd589ac9e9, type: 2}
   _restartTurnEvent: {fileID: 11400000, guid: 0afc57118eb89e64199063ef428d099b, type: 2}
-  _beginPlayerTurnEvent: {fileID: 11400000, guid: c4a3beb1ebf3c5546b4810eecab70792, type: 2}
-  _activePlayerId: {fileID: 11400000, guid: ae6dc1fcf325f504285c5e9ce8a66bae, type: 2}
+  _beginPlayerTurnEvent: {fileID: 11400000, guid: b99079550e0487544a717b111a95f61a, type: 2}
+  _activePlayerId: {fileID: 11400000, guid: fe56fc832200ad740a8d39f312693fae, type: 2}
+  _playersManager: {fileID: 11400000, guid: e4901a607448397409f07fb42dabf0f1, type: 2}
+  _playersView: {fileID: 0}
+--- !u!114 &216857030917469578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8158082796970067636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c902dfea766531b48b22db8b90997fae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _winScreenView: {fileID: 0}
+  _rematchEvent: {fileID: 11400000, guid: 3821a91444053c4458550d53c61f7436, type: 2}

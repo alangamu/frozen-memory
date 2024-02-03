@@ -1,4 +1,4 @@
-﻿using Unity.Netcode;
+﻿using Unity.Services.Authentication;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -14,15 +14,15 @@ namespace Assets.Scripts
         [SerializeField]
         private GameEvent _endTurnEvent;
         [SerializeField]
-        private IntGameEvent _beginPlayerTurn;
+        private StringGameEvent _beginPlayerTurn;
 
-        private int _localPlayerId;
+        private string _playerId;
 
         private void OnEnable()
         {
             _gameOverEvent.OnRaise += HideTimer;
             _timerController.gameObject.SetActive(false);
-            _localPlayerId = (int)NetworkManager.Singleton.LocalClientId;
+            _playerId = AuthenticationService.Instance.PlayerId;
             _beginPlayerTurn.OnRaise += BeginPlayerTurn;
             _endTurnEvent.OnRaise += HideTimer;
         }
@@ -39,9 +39,9 @@ namespace Assets.Scripts
             _timerController.gameObject.SetActive(false);
         }
 
-        private void BeginPlayerTurn(int localPlayerId)
+        private void BeginPlayerTurn(string localPlayerId)
         {
-            if (localPlayerId == _localPlayerId)
+            if (localPlayerId.Equals(_playerId))
             {
                 _timerController.gameObject.SetActive(true);
                 _startCountdown.Raise();

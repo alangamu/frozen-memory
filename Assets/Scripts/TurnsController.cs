@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using Assets.Scripts.ScriptableObjects;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Netcode;
 using UnityEngine;
 
 namespace Assets.Scripts
 {
-    public class TurnsManager : NetworkBehaviour
+    public class TurnsController : NetworkBehaviour
     {
         [SerializeField]
         private GameEvent _gameStartEvent;
@@ -16,12 +17,16 @@ namespace Assets.Scripts
         [SerializeField]
         private GameEvent _restartTurnEvent;
         [SerializeField]
-        private IntGameEvent _beginPlayerTurnEvent;
+        private StringGameEvent _beginPlayerTurnEvent;
         [SerializeField]
-        private IntVariable _activePlayerId;
+        private StringVariable _activePlayerId;
+        [SerializeField]
+        private PlayersModel _playersManager;
+        [SerializeField]
+        private PlayersWiew _playersView;
 
         private int _activePlayerIndex = 0;
-        private List<ulong> _clientsIdList;
+        private List<string> _clientsIdList = new List<string>();
 
         private bool _isHost = false;
 
@@ -46,7 +51,7 @@ namespace Assets.Scripts
         {
             if (_isHost)
             {
-                BeginPlayerTurnClientRpc((int)_clientsIdList[_activePlayerIndex]);
+                BeginPlayerTurnClientRpc(_clientsIdList[_activePlayerIndex]);
             }
         }
 
@@ -68,35 +73,47 @@ namespace Assets.Scripts
                 _activePlayerIndex = 0;
             }
 
-            BeginPlayerTurnClientRpc((int)_clientsIdList[_activePlayerIndex]);
+            BeginPlayerTurnClientRpc(_clientsIdList[_activePlayerIndex]);
         }
 
         [ServerRpc(RequireOwnership = false)]
         private void OnTurnExpiredServerRpc()
         {
-            _endTurnEvent.Raise();
+            EndTurnClientRpc();
         }
 
         private void OnGameStart()
         {
             if (_isHost)
             {
-                _clientsIdList = new List<ulong>();
-                foreach (var key in NetworkManager.ConnectedClients.Keys)
+                _clientsIdList.Clear();
+                foreach (var player in _playersManager.Players)
                 {
-                    _clientsIdList.Add(key);
+                    _clientsIdList.Add(player.Key);
                 }
 
                 _activePlayerIndex = Random.Range(0, _clientsIdList.Count);
-                BeginPlayerTurnClientRpc((int)_clientsIdList[_activePlayerIndex]);
+
+                BeginPlayerTurnClientRpc(_clientsIdList[_activePlayerIndex]);
             }
         }
 
         [ClientRpc]
-        private void BeginPlayerTurnClientRpc(int playerId)
+        private void EndTurnClientRpc() 
+        {
+            _endTurnEvent.Raise();
+        }
+
+        [ClientRpc]
+        private void BeginPlayerTurnClientRpc(string playerId)
         {
             _activePlayerId.SetValue(playerId);
             _beginPlayerTurnEvent.Raise(playerId);
+
+            foreach (var playerScoreView in _playersView.Players)
+            {
+                playerScoreView.Value.SetActivePlayer(playerScoreView.Key.Equals(playerId));
+            }
         }
     }
 }

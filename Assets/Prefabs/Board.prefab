@@ -291,8 +291,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbc83b64db19dfe41bc4af1f20ec4f1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _activePlayerId: {fileID: 11400000, guid: ae6dc1fcf325f504285c5e9ce8a66bae, type: 2}
-  _tilesAmount: 50
+  _activePlayerId: {fileID: 11400000, guid: fe56fc832200ad740a8d39f312693fae, type: 2}
+  _tilesAmount: 10
   _images:
   - {fileID: 21300000, guid: 86a856fdbaff14136b70189676e13045, type: 3}
   - {fileID: 21300000, guid: 0da031c682f0e4462896b9f719ac2048, type: 3}
@@ -374,7 +374,7 @@ MonoBehaviour:
   _gameStartEvent: {fileID: 11400000, guid: aed0e2de18dd72740af8cf09ef41815e, type: 2}
   _initializeEvent: {fileID: 11400000, guid: 9f768b6465edc8645939d8957f80f6e7, type: 2}
   _endTurnEvent: {fileID: 11400000, guid: efa39be23d081f04793957bd589ac9e9, type: 2}
-  _playerScored: {fileID: 11400000, guid: f063fcba051b3ac46b6a5e94166c8395, type: 2}
+  _playerScored: {fileID: 11400000, guid: 2e9d93fe78de74d4885e11be7ebf4175, type: 2}
   _gameOverEvent: {fileID: 11400000, guid: 168bd7338817f194db7f0c29d728081b, type: 2}
   _stopCountdown: {fileID: 11400000, guid: 0e449a39647287f40907f8901cf486aa, type: 2}
   _restartTurnEvent: {fileID: 11400000, guid: 0afc57118eb89e64199063ef428d099b, type: 2}

@@ -9,7 +9,7 @@ namespace Assets.Scripts
     public class BoardManager : NetworkBehaviour
     {
         [SerializeField]
-        private IntVariable _activePlayerId;
+        private StringVariable _activePlayerId;
         [SerializeField]
         private int _tilesAmount = 50;
         [SerializeField] 
@@ -25,7 +25,7 @@ namespace Assets.Scripts
         [SerializeField]
         private GameEvent _endTurnEvent;
         [SerializeField]
-        private IntGameEvent _playerScored;
+        private StringGameEvent _playerScored;
         [SerializeField]
         private GameEvent _gameOverEvent;
         [SerializeField]
@@ -64,17 +64,18 @@ namespace Assets.Scripts
             _activeTiles.Clear();
         }
 
-        private void OnTileClicked(int localClientId, TileController tileController)
+        private void OnTileClicked(string playerId, TileController tileController)
         {
-            if (_activePlayerId.Value == localClientId)
+            if (_activePlayerId.Value.Equals(playerId))
             {
                 var index = Array.FindIndex(_tileControllers, x => x == tileController);
-                PressTileServerRpc(localClientId, index);
+                PressTileServerRpc(playerId, index);
             }
         }
 
         private void Initialize()
         {
+            _activeTiles.Clear();
             ShowContentClientRpc();
 
             if (NetworkManager.Singleton.IsServer)
@@ -86,6 +87,8 @@ namespace Assets.Scripts
         [ServerRpc]
         public void CreateBoardServerRpc()
         {
+            _randomNumberList.Clear();
+
             for (int i = 0; i < _tilesAmount / 2; i++)
             {
                 _randomNumberList.Add(i);
@@ -99,11 +102,9 @@ namespace Assets.Scripts
         [ClientRpc]
         private void DisplayBoardClientRpc(int[] randomNumberList)
         {
-            int localPlayerId = (int)NetworkManager.Singleton.LocalClientId;
-
             for (int i = 0; i < _tilesAmount; i++)
             {
-                _tileControllers[i].Initialize(randomNumberList[i], localPlayerId);
+                _tileControllers[i].Initialize(randomNumberList[i]);
                 _tileControllers[i].Initialize(_images[randomNumberList[i]]);
             }
 
@@ -135,7 +136,7 @@ namespace Assets.Scripts
         }
 
         [ServerRpc(RequireOwnership = false)]
-        private void PressTileServerRpc(int localClientId, int tileControllerIndex)
+        private void PressTileServerRpc(string playerId, int tileControllerIndex)
         {
             if (_activeTiles.Count < 2)
             {
@@ -156,16 +157,16 @@ namespace Assets.Scripts
                 {
                     CancelCountdownClientRpc();
 
-                    Resolve(localClientId, _activeTiles[0].TileIndex, _activeTiles[1].TileIndex);
+                    Resolve(playerId, _activeTiles[0].TileIndex, _activeTiles[1].TileIndex);
                 }
             }
         }
 
-        private async void Resolve(int localClientId, int firstIndex, int secondIndex)
+        private async void Resolve(string playerId, int firstIndex, int secondIndex)
         {
             if (firstIndex == secondIndex)
             {
-                PlayerScoredClientRpc(localClientId);
+                PlayerScoredClientRpc(playerId);
 
                 await Task.Delay(1000);
                 LockTilesClientRpc(firstIndex);
@@ -188,9 +189,9 @@ namespace Assets.Scripts
         }
 
         [ClientRpc]
-        private void PlayerScoredClientRpc(int localPlayerId)
+        private void PlayerScoredClientRpc(string playerId)
         {
-            _playerScored.Raise(localPlayerId);
+            _playerScored.Raise(playerId);
         }
 
         [ClientRpc]

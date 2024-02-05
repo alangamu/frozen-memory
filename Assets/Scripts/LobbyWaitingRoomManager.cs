@@ -217,8 +217,12 @@ namespace Assets.Scripts
                 {
                     if (item.Data.TryGetValue("PlayerName", out PlayerDataObject playerName))
                     {
-                        waitingRoomPlayerUI.Initialize(playerName.Value, item.Id);
-                        _playersController.AddPlayer(item.Id, playerName.Value);
+                        if (item.Data.TryGetValue("avatarIndex", out PlayerDataObject playerAvatarIndex))
+                        {
+                            PlayerInfo playerInfo = new PlayerInfo(int.Parse(playerAvatarIndex.Value), playerName.Value);
+                            _playersController.AddPlayer(item.Id, playerInfo);
+                            waitingRoomPlayerUI.Initialize(playerName.Value, item.Id, int.Parse(playerAvatarIndex.Value));
+                        }
                     }
                     if (item.Data.TryGetValue("ready", out PlayerDataObject playerReady))
                     {

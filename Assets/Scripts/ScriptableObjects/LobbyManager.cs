@@ -22,6 +22,8 @@ namespace Assets.Scripts
         [SerializeField]
         private StringVariable _playerNameVariable;
         [SerializeField]
+        private IntVariable _playerAvatarIndexVariable;
+        [SerializeField]
         private StringVariable _keyStartGameVariable;
         [SerializeField]
         private BoolVariable _isStartupLoaded;
@@ -190,6 +192,11 @@ namespace Assets.Scripts
                                         "PlayerName", new PlayerDataObject(
                                             visibility: PlayerDataObject.VisibilityOptions.Member, // Visible only to members of the lobby.
                                             value: _playerNameVariable.Value)
+                                    },
+                                    {
+                                        "avatarIndex", new PlayerDataObject(
+                                            visibility: PlayerDataObject.VisibilityOptions.Member, // Visible only to members of the lobby.
+                                            value: _playerAvatarIndexVariable.Value.ToString())
                                     },
                                     {
                                         "ready", new PlayerDataObject(

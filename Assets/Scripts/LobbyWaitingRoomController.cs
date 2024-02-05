@@ -20,6 +20,8 @@ namespace Assets.Scripts
         [SerializeField]
         private StringVariable _playerNameVariable;
         [SerializeField]
+        private IntVariable _playerAvatarIndexVariable;
+        [SerializeField]
         private GameObject _waitingRoomPlayerUIPrefab;
         [SerializeField]
         private Transform _playerReadyTickTransform;
@@ -42,7 +44,7 @@ namespace Assets.Scripts
             Debug.Log($"OnNetworkSpawn");
             base.OnNetworkSpawn();
 
-            AddPlayerClientRpc(_playerId, _playerNameVariable.Value);
+            AddPlayerClientRpc(_playerId, _playerNameVariable.Value, _playerAvatarIndexVariable.Value);
 
             var callbacks = new LobbyEventCallbacks();
             callbacks.PlayerJoined += OnPlayerJoined;
@@ -82,7 +84,7 @@ namespace Assets.Scripts
         {
             Debug.Log($"OnPlayerJoined");
             //_joinedLobby = await RefreshPlayersList();
-            AddPlayerClientRpc(list[0].Player.Id, list[0].Player.Data["PlayerName"].Value);
+            AddPlayerClientRpc(list[0].Player.Id, list[0].Player.Data["PlayerName"].Value, int.Parse(list[0].Player.Data["avatarIndex"].Value));
         }
 
         private async void Start()
@@ -163,7 +165,10 @@ namespace Assets.Scripts
                 {
                     if (item.Data.TryGetValue("PlayerName", out PlayerDataObject playerName))
                     {
-                        waitingRoomPlayerUI.Initialize(playerName.Value, item.Id);
+                        if (item.Data.TryGetValue("avatarIndex", out PlayerDataObject playerAvatarIndex))
+                        {
+                            waitingRoomPlayerUI.Initialize(playerName.Value, item.Id, int.Parse(playerAvatarIndex.Value));
+                        }
                     }
                     if (item.Data.TryGetValue("ready", out PlayerDataObject playerReady))
                     {
@@ -181,10 +186,11 @@ namespace Assets.Scripts
         }
 
         [ClientRpc]
-        private void AddPlayerClientRpc(string playerId, string playerName)
+        private void AddPlayerClientRpc(string playerId, string playerName, int avatarIndex)
         {
             Debug.Log($"AddPlayerClientRpc {playerId}, {playerName}");
-            _playersController.AddPlayer(playerId, playerName);
+            PlayerInfo playerInfo = new PlayerInfo(avatarIndex, playerName);
+            _playersController.AddPlayer(playerId, playerInfo);
 
             //GameObject waitingRoomPlayerUIGameObject = Instantiate(_waitingRoomPlayerUIPrefab, _playersParentTranform);
 

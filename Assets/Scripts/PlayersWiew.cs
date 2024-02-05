@@ -14,11 +14,11 @@ namespace Assets.Scripts
 
         private Dictionary<string, PlayerScoreView> _players = new Dictionary<string, PlayerScoreView>();
 
-        public void AddPlayer(string playerId, string playerName)
+        public void AddPlayer(string playerId, string playerName, int avatarIndex)
         {
             PlayerScoreView playerScoreView = Instantiate(_playerUIPrefab);
             playerScoreView.transform.SetParent(_playersRoot);
-            playerScoreView.Initialize(playerId, playerName);
+            playerScoreView.Initialize(playerId, playerName, avatarIndex);
             _players.Add(playerId, playerScoreView);
         }
 

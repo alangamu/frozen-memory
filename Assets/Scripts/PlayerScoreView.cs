@@ -1,4 +1,5 @@
-﻿using Unity.Services.Authentication;
+﻿using Assets.Scripts.ScriptableObjects;
+using Unity.Services.Authentication;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,13 +23,18 @@ namespace Assets.Scripts
         private Color _ownerColor;
         [SerializeField]
         private Image _background;
+        [SerializeField]
+        private Image _avatarImage;
+        [SerializeField]
+        private AvatarModel _avatarModel;
 
         private int _score = 0;
         private string _playerId;
         private bool _isOwner;
 
-        public void Initialize(string playerId, string playerName)
+        public void Initialize(string playerId, string playerName, int avatarIndex)
         {
+            _avatarImage.sprite = _avatarModel.Avatars[avatarIndex];
             _userNameText.text = playerName;
             _playerId = playerId;
             gameObject.SetActive(true);

@@ -58,7 +58,7 @@ namespace Assets.Scripts
                 while (_scoreManager.Score.Count > 0)
                 {
                     string idPlayerHighScore = _scoreManager.GetIdPlayerHighScore(score);
-                    ShowWinPanelClientRpc(_playersManager.Players[idPlayerHighScore], score[idPlayerHighScore], index++, idPlayerHighScore);
+                    ShowWinPanelClientRpc(_playersManager.Players[idPlayerHighScore].PlayerName, score[idPlayerHighScore], index++, idPlayerHighScore);
                     score.Remove(idPlayerHighScore);
                 }
             }

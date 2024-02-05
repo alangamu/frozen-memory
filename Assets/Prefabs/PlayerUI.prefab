@@ -389,6 +389,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerNameText: {fileID: 2110376905826109472}
   _playerReadyTickGameObject: {fileID: 5543954021946449274}
+  _avatarModel: {fileID: 11400000, guid: b150515002ee25b4b8cd04b69cc2bb41, type: 2}
+  _avatarImage: {fileID: 3520011683664844480}
 --- !u!1 &5142183889818683346
 GameObject:
   m_ObjectHideFlags: 0

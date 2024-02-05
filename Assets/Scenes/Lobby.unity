@@ -24056,7 +24056,10 @@ MonoBehaviour:
   _lobbyItemUIPrefab: {fileID: 2670850301198122572, guid: ee45cdaac814dcd4d904a2f778e919e1, type: 3}
   _playerId: {fileID: 1397455050}
   _playerNameVariable: {fileID: 11400000, guid: ace68e105c96ee84db72d4713f8a6b43, type: 2}
+  _playerAvatarIndexVariable: {fileID: 11400000, guid: 52925b1d690f55b4db6529134c368c1d, type: 2}
   _keyStartGameVariable: {fileID: 11400000, guid: 1ae6988cbc1c72847b7e8298b39c4eeb, type: 2}
+  _playerAvatar: {fileID: 1097986788}
+  _playerAvatarModel: {fileID: 11400000, guid: b150515002ee25b4b8cd04b69cc2bb41, type: 2}
 --- !u!1 &1095968674
 GameObject:
   m_ObjectHideFlags: 0

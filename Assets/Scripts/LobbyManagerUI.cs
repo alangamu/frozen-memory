@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Assets.Scripts.ScriptableObjects;
+using System.Collections.Generic;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,7 +19,13 @@ namespace Assets.Scripts
         [SerializeField]
         private StringVariable _playerNameVariable;
         [SerializeField]
+        private IntVariable _playerAvatarIndexVariable;
+        [SerializeField]
         private StringVariable _keyStartGameVariable;
+        [SerializeField]
+        private Image _playerAvatar;
+        [SerializeField]
+        private AvatarModel _playerAvatarModel;
 
         public async void RefreshLobbyList()
         {
@@ -41,11 +48,18 @@ namespace Assets.Scripts
         private void OnEnable()
         {
             _playerNameVariable.OnValueChanged += OnPlayerNameChanged;
+            _playerAvatarIndexVariable.OnValueChanged += OnPlayerAvatarChanged;
         }
 
         private void OnDisable()
         {
             _playerNameVariable.OnValueChanged -= OnPlayerNameChanged;
+            _playerAvatarIndexVariable.OnValueChanged -= OnPlayerAvatarChanged;
+        }
+
+        private void OnPlayerAvatarChanged(int newPlayerAvatarIndex)
+        {
+            _playerAvatar.sprite = _playerAvatarModel.Avatars[newPlayerAvatarIndex];
         }
 
         private void OnPlayerNameChanged(string newPlayerName)
@@ -57,6 +71,7 @@ namespace Assets.Scripts
         {
             RefreshLobbyList();
             OnPlayerNameChanged(_playerNameVariable.Value);
+            OnPlayerAvatarChanged(_playerAvatarIndexVariable.Value);
         }
 
         private void ClearLobbyList()

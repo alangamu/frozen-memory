@@ -492,8 +492,8 @@ MonoBehaviour:
   _defaultColor: {r: 0.12941177, g: 0.227451, b: 0.32941177, a: 0}
   _ownerColor: {r: 0.21568629, g: 0.9960785, b: 0, a: 1}
   _background: {fileID: 737674622573528201}
-  _beginPlayerTurnEvent: {fileID: 11400000, guid: b99079550e0487544a717b111a95f61a, type: 2}
-  _playerScored: {fileID: 11400000, guid: 2e9d93fe78de74d4885e11be7ebf4175, type: 2}
+  _avatarImage: {fileID: 3520011683664844480}
+  _avatarModel: {fileID: 11400000, guid: b150515002ee25b4b8cd04b69cc2bb41, type: 2}
 --- !u!1 &5002189448066206317
 GameObject:
   m_ObjectHideFlags: 0

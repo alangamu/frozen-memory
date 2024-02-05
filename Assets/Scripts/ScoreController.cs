@@ -37,11 +37,11 @@ namespace Assets.Scripts
 
             if (NetworkManager.Singleton.IsHost)
             {
-                Dictionary<string, string> players = _playersManager.Players;
+                Dictionary<string, PlayerInfo> players = _playersManager.Players;
 
                 foreach (var player in players)
                 {
-                    SetupPlayerScoreUIClientRpc(player.Key, player.Value);
+                    SetupPlayerScoreUIClientRpc(player.Key, player.Value.PlayerName, player.Value.AvatarIndex);
                 }
             }
         }
@@ -58,9 +58,9 @@ namespace Assets.Scripts
         }
 
         [ClientRpc]
-        private void SetupPlayerScoreUIClientRpc(string playerId, string playerName)
+        private void SetupPlayerScoreUIClientRpc(string playerId, string playerName, int avatarIndex)
         {
-            _playersView.AddPlayer(playerId, playerName);
+            _playersView.AddPlayer(playerId, playerName, avatarIndex);
             _scoreManager.AddScore(playerId, 0);
         }
     }

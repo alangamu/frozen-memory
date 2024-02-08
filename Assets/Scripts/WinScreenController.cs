@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ricimi;
+using System;
 using Unity.Netcode;
 using Unity.Services.Authentication;
 using UnityEngine;
@@ -11,15 +12,25 @@ namespace Assets.Scripts
         private WinScreenView _winScreenView;
         [SerializeField]
         private GameEvent _rematchEvent;
+        [SerializeField]
+        private SceneTransition _sceneTransition;
 
         private void OnEnable()
         {
             _winScreenView.OnPlayerPressedRematch += PlayerPressedRematch;
+            _winScreenView.OnPlayerPressedRestart += PlayerPressedRestart;
         }
 
         private void OnDisable()
         {
             _winScreenView.OnPlayerPressedRematch -= PlayerPressedRematch;
+            _winScreenView.OnPlayerPressedRestart -= PlayerPressedRestart;
+        }
+
+        private void PlayerPressedRestart()
+        {
+            NetworkManager.Singleton.Shutdown();
+            _sceneTransition.PerformTransition();
         }
 
         private void PlayerPressedRematch()
@@ -55,11 +66,8 @@ namespace Assets.Scripts
                 {
                     PlayerWinView[] playersWinUI = Array.FindAll(_winScreenView.PlayerWinViews, x => x.PlayerId != null && x.IsReady);
 
-                    Debug.Log($"playersWinUI.Length {playersWinUI.Length}");
-                    Debug.Log($"NetworkManager.ConnectedClients.Count {NetworkManager.ConnectedClients.Count}");
                     if (playersWinUI != null && playersWinUI.Length == NetworkManager.ConnectedClients.Count)
                     {
-                        Debug.Log("rematch");
                         RematchGameClientRpc();
                     }
                 }

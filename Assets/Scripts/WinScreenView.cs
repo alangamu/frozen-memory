@@ -7,29 +7,32 @@ namespace Assets.Scripts
     public class WinScreenView : MonoBehaviour
     {
         public event Action OnPlayerPressedRematch;
+        public event Action OnPlayerPressedRestart;
 
         public PlayerWinView[] PlayerWinViews => _playerWinViews;
 
         [SerializeField]
         private AnimatedButton _remachtButton;
         [SerializeField]
+        private AnimatedButton _restartButton;
+        [SerializeField]
         private PlayerWinView[] _playerWinViews;
 
         private void OnEnable()
         {
-            _remachtButton.onClick.AddListener(() => {
-                PlayerPress();
+            _remachtButton.onClick.AddListener(() => { 
+                OnPlayerPressedRematch?.Invoke(); 
+            });
+
+            _restartButton.onClick.AddListener(() => {
+                OnPlayerPressedRestart?.Invoke();
             });
         }
 
         private void OnDisable()
         {
             _remachtButton.onClick.RemoveAllListeners();
-        }
-
-        private void PlayerPress()
-        {
-            OnPlayerPressedRematch?.Invoke();
+            _restartButton.onClick.RemoveAllListeners();
         }
     }
 }

@@ -194,12 +194,14 @@ namespace Assets.Scripts
 
         private async void OnPlayerJoined(List<LobbyPlayerJoined> list)
         {
+            Debug.Log("OnPlayerJoined");
             _joinedLobby = await RefreshPlayersList();
             _playerReadyButton.enabled = true;
         }
 
         private async Task<Lobby> RefreshPlayersList()
         {
+            Debug.Log("RefreshPlayersList");
             Lobby joinedLobby = await _lobbyManager.GetLobby(_lobbyManager.JoinedLobbyId);
 
             foreach (Transform item in _playersParentTranform)

@@ -31,7 +31,7 @@ namespace Assets.Scripts
         {
             _gameOverEvent.OnRaise -= HideTimer;
             _beginPlayerTurn.OnRaise -= BeginPlayerTurn;
-            _endTurnEvent.OnRaise += HideTimer;
+            _endTurnEvent.OnRaise -= HideTimer;
         }
 
         private void HideTimer()

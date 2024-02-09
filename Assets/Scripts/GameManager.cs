@@ -91,5 +91,10 @@ namespace Assets.Scripts
             _winScreenView.PlayerWinViews[index].gameObject.SetActive(true);
             _winScreenView.PlayerWinViews[index].Initialize(playerName, playerScore, index, playerId);
         }
+
+        private void OnApplicationQuit()
+        {
+            NetworkManager.Singleton.Shutdown();
+        }
     }
 }

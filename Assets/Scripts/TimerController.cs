@@ -36,7 +36,10 @@ namespace Assets.Scripts
 
         private void HideTimer()
         {
-            _timerController.gameObject.SetActive(false);
+            if (_timerController.gameObject != null)
+            {
+                _timerController.gameObject.SetActive(false);
+            }
         }
 
         private void BeginPlayerTurn(string localPlayerId)

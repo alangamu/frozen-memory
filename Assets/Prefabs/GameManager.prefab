@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3323247357491047450}
   - component: {fileID: 6265963131111257827}
   - component: {fileID: 216857030917469578}
+  - component: {fileID: 1615854924416704682}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -109,3 +110,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _winScreenView: {fileID: 0}
   _rematchEvent: {fileID: 11400000, guid: 3821a91444053c4458550d53c61f7436, type: 2}
+  _sceneTransition: {fileID: 0}
+--- !u!114 &1615854924416704682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8158082796970067636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93fb77ea5634baf438b3fe817bc467e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _errorPopupView: {fileID: 0}
+  _errorMessageVariable: {fileID: 11400000, guid: 010c2abf53c23b54da1d80296d17826b, type: 2}

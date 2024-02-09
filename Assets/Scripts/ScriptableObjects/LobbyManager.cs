@@ -10,6 +10,7 @@ using Unity.Services.Lobbies.Models;
 using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using UnityEngine;
+using Unity.VisualScripting;
 
 namespace Assets.Scripts
 {
@@ -57,11 +58,11 @@ namespace Assets.Scripts
         public async Task<string> StartHostWithRelay(int maxConnections = 3)
         {
             Allocation allocation = await RelayService.Instance.CreateAllocationAsync(maxConnections);
-            
+
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(allocation, "dtls"));
-            
+
             var joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
-            
+
             return NetworkManager.Singleton.StartHost() ? joinCode : null;
         }
 
@@ -183,7 +184,7 @@ namespace Assets.Scripts
 
         public Player CreatePlayer()
         {
-            Player player =  new Player(
+            Player player = new Player(
                                 id: AuthenticationService.Instance.PlayerId,
                                 data: new Dictionary<string, PlayerDataObject>()
                                 {

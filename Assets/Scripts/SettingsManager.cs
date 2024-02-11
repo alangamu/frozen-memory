@@ -23,6 +23,14 @@ namespace Assets.Scripts
         private Image _avatarImage;
         [SerializeField]
         private InputField _playerNameInputField;
+        [SerializeField]
+        private Slider _volumeSlider;
+        [SerializeField]
+        private FloatVariable _musicVolumeVariable;
+        [SerializeField]
+        private Slider _soundFxSlider;
+        [SerializeField]
+        private FloatVariable _soundFxVolumeVariable;
 
         private void OnEnable()
         {
@@ -30,12 +38,28 @@ namespace Assets.Scripts
             _rightArrowButton.onClick.AddListener(PressRightArrow);
             ShowAvatar();
             _playerNameInputField.text = _playerName.Value;
+            _volumeSlider.onValueChanged.AddListener(ChangeMusicVolume);
+            _volumeSlider.value = _musicVolumeVariable.Value;
+            _soundFxSlider.onValueChanged.AddListener(ChangeSoundFxVolume);
+            _soundFxSlider.value = _soundFxVolumeVariable.Value;
         }
 
         private void OnDisable()
         {
             _leftArrowButton.onClick.RemoveAllListeners();
             _rightArrowButton.onClick.RemoveAllListeners();
+            _volumeSlider.onValueChanged.RemoveAllListeners();
+            _soundFxSlider.onValueChanged.RemoveAllListeners();
+        }
+
+        private void ChangeMusicVolume(float newValue)
+        {
+            _musicVolumeVariable.SetValue(newValue);
+        }
+
+        private void ChangeSoundFxVolume(float newValue)
+        {
+            _soundFxVolumeVariable.SetValue(newValue);
         }
 
         public void SaveSettings()

@@ -102,7 +102,7 @@ namespace Assets.Scripts
 
             _waitingRoomPlayer.SetReady(_isPlayerReady);
 
-            await CheckStartGame();
+            //await CheckStartGame();
         }
 
         private async void Start()

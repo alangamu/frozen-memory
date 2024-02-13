@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 935a24af685200b4996858d2633d641f, type: 3}
   m_Name: SoundFxVolume
   m_EditorClassIdentifier: 
-  _value: 1
+  _value: 0.31

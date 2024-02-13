@@ -101,6 +101,7 @@ namespace Assets.Scripts
         [ClientRpc]
         private void EndTurnClientRpc() 
         {
+            _activePlayerId.SetValue(string.Empty);
             _endTurnEvent.Raise();
         }
 

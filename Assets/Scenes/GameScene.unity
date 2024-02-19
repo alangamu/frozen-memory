@@ -2679,6 +2679,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5221613723077969595, guid: c9789ce86bb79534e9f1a6999132ba71, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 195815969
+      objectReference: {fileID: 0}
+    - target: {fileID: 5221613723077969595, guid: c9789ce86bb79534e9f1a6999132ba71, type: 3}
+      propertyPath: InScenePlacedSourceGlobalObjectIdHash
+      value: 136264381
+      objectReference: {fileID: 0}
     - target: {fileID: 5552787928511925287, guid: c9789ce86bb79534e9f1a6999132ba71, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

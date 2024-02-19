@@ -10,7 +10,6 @@ using Unity.Services.Lobbies.Models;
 using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using UnityEngine;
-using Unity.VisualScripting;
 
 namespace Assets.Scripts
 {
@@ -158,7 +157,6 @@ namespace Assets.Scripts
             {
                 _joinedLobbyId = lobbyId;
                 Lobby _joinedLobby = await LobbyService.Instance.JoinLobbyByIdAsync(lobbyId, options);
-                //_joinedLobbyId = _joinedLobby.Id;
                 _hostId = string.Empty;
                 return _joinedLobby;
             }

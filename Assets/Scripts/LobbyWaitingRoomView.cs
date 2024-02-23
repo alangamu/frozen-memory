@@ -25,8 +25,15 @@ namespace Assets.Scripts
         private AnimatedButton _backButton;
         [SerializeField]
         private GameObject _waitingRoomPlayerUIPrefab;
+        [SerializeField]
+        private Transform _loadingObject;
 
         private Dictionary<string, WaitingRoomPlayerUI> _lobbyPlayers;
+
+        public void ShowLoading(bool isLoading)
+        {
+            _loadingObject.gameObject.SetActive(isLoading);
+        }
 
         public void ClearPlayers()
         {
@@ -78,7 +85,10 @@ namespace Assets.Scripts
 
         public void SetEnebleReadyButton(bool isEnable)
         {
-            _playerReadyButton.enabled = isEnable;
+            if (_playerReadyButton != null)
+            {
+                _playerReadyButton.enabled = isEnable;
+            }
         }
 
         private void OnEnable()

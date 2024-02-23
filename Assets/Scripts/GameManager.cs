@@ -23,6 +23,8 @@ namespace Assets.Scripts
         private PlayersModel _playersManager;
         [SerializeField]
         private GameEvent _rematchEvent;
+        [SerializeField]
+        private Transform _loadingWidgetTransform;
 
         [SerializeField]
         private AnimatedButton _restartButton;
@@ -43,7 +45,7 @@ namespace Assets.Scripts
         {
             if (NetworkManager.Singleton.IsServer)
             {
-                InitializeClientRpc();
+                InitializeRpc();
             }
         }
 
@@ -67,20 +69,21 @@ namespace Assets.Scripts
         private async void Start()
         {
             _winScreenView.gameObject.SetActive(false);
-
+            _loadingWidgetTransform.gameObject.SetActive(true);
             _lobbyManager.StopHeartbeat();
             //TODO: listen to loaded clients connected or something like that
             if (NetworkManager.Singleton.IsServer)
             {
                 await _lobbyManager.DeleteLobby(_lobbyManager.JoinedLobbyId);
                 await Task.Delay(3000);
-                InitializeClientRpc();
+                InitializeRpc();
             }
         }
 
-        [ClientRpc]
-        private void InitializeClientRpc()
+        [Rpc(SendTo.Everyone)]
+        private void InitializeRpc()
         {
+            _loadingWidgetTransform.gameObject.SetActive(false);
             _winScreenView.gameObject.SetActive(false);
             _initializeEvent.Raise();
         }

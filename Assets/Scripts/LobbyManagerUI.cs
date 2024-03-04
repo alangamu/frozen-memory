@@ -41,7 +41,6 @@ namespace Assets.Scripts
                 {
                     lobbyItemUI.Initialize(item.Name, item.Id);
                 }
-                Debug.Log($"{item.Name} {item.MaxPlayers}");
             }
         }
 

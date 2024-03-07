@@ -1,6 +1,7 @@
 ﻿#if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
+using Assets.Scripts.ScriptableObjects.Variables;
 #endif
 
 namespace Assets.Scripts

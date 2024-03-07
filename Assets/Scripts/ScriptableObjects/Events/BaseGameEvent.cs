@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Assets.Scripts
+namespace Assets.Scripts.ScriptableObjects.Events
 {
     public class BaseGameEvent<T> : ScriptableObject
     {
@@ -12,5 +12,4 @@ namespace Assets.Scripts
             OnRaise?.Invoke(type);
         }
     }
-
 }

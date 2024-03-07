@@ -10,6 +10,7 @@ using Unity.Services.Lobbies.Models;
 using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using UnityEngine;
+using Assets.Scripts.ScriptableObjects.Variables;
 
 namespace Assets.Scripts
 {

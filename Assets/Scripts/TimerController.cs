@@ -1,4 +1,5 @@
-﻿using Unity.Services.Authentication;
+﻿using Assets.Scripts.ScriptableObjects.Events;
+using Unity.Services.Authentication;
 using UnityEngine;
 
 namespace Assets.Scripts

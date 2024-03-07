@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using Assets.Scripts.ScriptableObjects.Events;
+using Assets.Scripts.ScriptableObjects.Variables;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Assets.Scripts

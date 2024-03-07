@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.ScriptableObjects;
+using Assets.Scripts.ScriptableObjects.Events;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;

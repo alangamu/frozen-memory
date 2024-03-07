@@ -1,4 +1,5 @@
-﻿using Ricimi;
+﻿using Assets.Scripts.ScriptableObjects.Variables;
+using Ricimi;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -18,19 +19,19 @@ namespace Assets.Scripts
             _errorPopupView.gameObject.SetActive(false);
             _errorMessageVariable.OnValueChanged += OnErrorOccurred;
             _errorPopupView.OnPressedOk += OnPressedOk;
-            NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnectCallback;
+//            NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnectCallback;
         }
 
-        private void OnClientDisconnectCallback(ulong obj)
-        {
-            _errorMessageVariable.SetValue("Client Disconnected");
-        }
+        //private void OnClientDisconnectCallback(ulong obj)
+        //{
+        //    _errorMessageVariable.SetValue("Client Disconnected");
+        //}
 
         private void OnDisable()
         {
             _errorMessageVariable.OnValueChanged -= OnErrorOccurred;
             _errorPopupView.OnPressedOk -= OnPressedOk;
-            NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnectCallback;
+//            NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnectCallback;
         }
 
         private void OnPressedOk()

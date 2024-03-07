@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Assets.Scripts
+namespace Assets.Scripts.ScriptableObjects.Variables
 {
     public class BaseVariable<T> : ScriptableObject
     {

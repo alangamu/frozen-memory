@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.ScriptableObjects;
+using Assets.Scripts.ScriptableObjects.Events;
 using Ricimi;
 using System.Collections.Generic;
 using System.Threading.Tasks;

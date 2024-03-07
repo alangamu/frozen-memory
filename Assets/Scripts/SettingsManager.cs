@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.ScriptableObjects;
+using Assets.Scripts.ScriptableObjects.Variables;
 using Ricimi;
 using UnityEngine;
 using UnityEngine.UI;

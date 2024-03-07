@@ -1,4 +1,5 @@
-﻿using Ricimi;
+﻿using Assets.Scripts.ScriptableObjects.Events;
+using Ricimi;
 using System;
 using Unity.Netcode;
 using Unity.Services.Authentication;

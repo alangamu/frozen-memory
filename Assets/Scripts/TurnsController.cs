@@ -1,4 +1,6 @@
 ﻿using Assets.Scripts.ScriptableObjects;
+using Assets.Scripts.ScriptableObjects.Events;
+using Assets.Scripts.ScriptableObjects.Variables;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Netcode;

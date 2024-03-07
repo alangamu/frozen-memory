@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.ScriptableObjects;
+﻿using Assets.Scripts.ScriptableObjects.Events;
+using Assets.Scripts.ScriptableObjects.Variables;
 using UnityEngine;
 
 namespace Assets.Scripts

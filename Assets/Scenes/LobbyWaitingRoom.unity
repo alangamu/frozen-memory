@@ -495,11 +495,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22470294, guid: 8d32c9410ee75f640b5fc893823ea6f3, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 435.3293
+      value: 2275.6
       objectReference: {fileID: 0}
     - target: {fileID: 22470294, guid: 8d32c9410ee75f640b5fc893823ea6f3, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 100
+      value: 1280
       objectReference: {fileID: 0}
     - target: {fileID: 22470294, guid: 8d32c9410ee75f640b5fc893823ea6f3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -553,29 +553,33 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2496108890578726447, guid: 8d32c9410ee75f640b5fc893823ea6f3, type: 3}
+      propertyPath: m_Color.a
+      value: 0.87058824
+      objectReference: {fileID: 0}
     - target: {fileID: 5722306633995866710, guid: 8d32c9410ee75f640b5fc893823ea6f3, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5722306633995866710, guid: 8d32c9410ee75f640b5fc893823ea6f3, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5722306633995866710, guid: 8d32c9410ee75f640b5fc893823ea6f3, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5722306633995866710, guid: 8d32c9410ee75f640b5fc893823ea6f3, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5722306633995866710, guid: 8d32c9410ee75f640b5fc893823ea6f3, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 1765.9503
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5722306633995866710, guid: 8d32c9410ee75f640b5fc893823ea6f3, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 708.1396
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1056,6 +1060,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f71ecf927c8b3974387d4d403fa64e47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _addPlayerReadyLobbyWaitingRoomEvent: {fileID: 11400000, guid: 092d949fbc98be34195480f308e86d5a, type: 2}
+  _setPlayerReadyLobbyWaitingRoomEvent: {fileID: 11400000, guid: 911a8397f2b5a7d45acc65804f9f2ba8, type: 2}
+  _showRemoveButtonLobbyWaitingRoomEvent: {fileID: 11400000, guid: e10ec6cdab65c394ba63f72311fe4122, type: 2}
+  _removePlayerLobbyWaitingRoomEvent: {fileID: 11400000, guid: c01fe2e24e3f20f41879e5a8e1b0f03b, type: 2}
+  _setLobbyNameLobbyWaitingRoomEvent: {fileID: 11400000, guid: b2cd6baa34c88fb43a9684b4cf523916, type: 2}
+  _hostRemovePlayerFromLobby: {fileID: 11400000, guid: 19946184007694d40afd3bf6f07b7fe4, type: 2}
+  _readyButtonLobbyWaitingRoomPressed: {fileID: 11400000, guid: 8aa896009074a7a429524086178d4a95, type: 2}
+  _backButtonLobbyWaitingRoomPressed: {fileID: 11400000, guid: 26344b68f7c3f8541b5d289be9f0bb21, type: 2}
+  _clearPlayersLobbyWaitingRoomEvent: {fileID: 11400000, guid: 05cf2720d8795364e86695cf04176d97, type: 2}
+  _setReadyLobbyWaitingRoomEvent: {fileID: 11400000, guid: 0dc2a85027a7a0440aeb66e67a3a6ea9, type: 2}
+  _setEnableReadyButtonLobbyWaitingRoomEvent: {fileID: 11400000, guid: 90a6a02fc8f622149bc1b41899c99810, type: 2}
+  _showLoadingLobbyWaitingRoomEvent: {fileID: 11400000, guid: 1c55de348ebce4d4797b03b4d02504ed, type: 2}
   _lobbyNameText: {fileID: 10455772}
   _playerReadyTickTransform: {fileID: 8822132734274787618}
   _playersParentTranform: {fileID: 884715154}
@@ -1283,6 +1299,14 @@ PrefabInstance:
       propertyPath: _playerReadyTickGameObject
       value: 
       objectReference: {fileID: 230936195412645133}
+    - target: {fileID: 5709185644514805391, guid: ab13dc5658b162a49bb300232f2cb8fa, type: 3}
+      propertyPath: _addPlayerReadyLobbyWaitingRoomEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: 092d949fbc98be34195480f308e86d5a, type: 2}
+    - target: {fileID: 5709185644514805391, guid: ab13dc5658b162a49bb300232f2cb8fa, type: 3}
+      propertyPath: _setPlayerReadyLobbyWaitingRoomEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: 911a8397f2b5a7d45acc65804f9f2ba8, type: 2}
     - target: {fileID: 5998628930562100110, guid: ab13dc5658b162a49bb300232f2cb8fa, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 2974901145

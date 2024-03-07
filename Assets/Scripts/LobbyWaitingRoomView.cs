@@ -1,5 +1,5 @@
-﻿using Ricimi;
-using System;
+﻿using Assets.Scripts.ScriptableObjects.Events;
+using Ricimi;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,8 +8,34 @@ namespace Assets.Scripts
 {
     public class LobbyWaitingRoomView : MonoBehaviour
     {
-        public event Action OnReadyButtonPressed;
-        public event Action OnBackButtonPressed;
+        [SerializeField]
+        private StringStringIntEvent _addPlayerReadyLobbyWaitingRoomEvent;
+
+        [SerializeField]
+        private StringBoolEvent _setPlayerReadyLobbyWaitingRoomEvent;
+        [SerializeField]
+        private StringBoolEvent _showRemoveButtonLobbyWaitingRoomEvent;
+
+        [SerializeField]
+        private StringGameEvent _removePlayerLobbyWaitingRoomEvent;
+        [SerializeField]
+        private StringGameEvent _setLobbyNameLobbyWaitingRoomEvent;
+        [SerializeField]
+        private StringGameEvent _hostRemovePlayerFromLobby;
+
+        [SerializeField]
+        private GameEvent _readyButtonLobbyWaitingRoomPressed;
+        [SerializeField]
+        private GameEvent _backButtonLobbyWaitingRoomPressed;
+        [SerializeField]
+        private GameEvent _clearPlayersLobbyWaitingRoomEvent;
+
+        [SerializeField]
+        private BoolEvent _setReadyLobbyWaitingRoomEvent;
+        [SerializeField]
+        private BoolEvent _setEnableReadyButtonLobbyWaitingRoomEvent;
+        [SerializeField]
+        private BoolEvent _showLoadingLobbyWaitingRoomEvent;
 
         [SerializeField]
         private Text _lobbyNameText;
@@ -30,12 +56,12 @@ namespace Assets.Scripts
 
         private Dictionary<string, WaitingRoomPlayerUI> _lobbyPlayers;
 
-        public void ShowLoading(bool isLoading)
+        private void ShowLoading(bool isLoading)
         {
             _loadingObject.gameObject.SetActive(isLoading);
         }
 
-        public void ClearPlayers()
+        private void ClearPlayers()
         {
             foreach (Transform item in _playersParentTranform)
             {
@@ -45,7 +71,7 @@ namespace Assets.Scripts
             _lobbyPlayers.Clear();
         }
 
-        public void AddPlayer(string playerName, string playerId, int avatarIndex)
+        private void AddPlayer(string playerName, string playerId, int avatarIndex)
         {
             if (!_lobbyPlayers.ContainsKey(playerId))
             {
@@ -58,7 +84,7 @@ namespace Assets.Scripts
             }
         }
 
-        public void RemovePlayer(string playerId)
+        private void RemovePlayer(string playerId)
         {
             if (_lobbyPlayers.ContainsKey(playerId))
             {
@@ -67,23 +93,23 @@ namespace Assets.Scripts
             }
         }
 
-        public void SetPlayerReady(string playerId, bool isReady)
+        private void SetPlayerReady(string playerId, bool isReady)
         {
             _lobbyPlayers[playerId].SetReady(isReady);
         }
 
-        public void SetReady(bool isReady)
+        private void SetReady(bool isReady)
         {
             _playerReadyTickTransform.gameObject.SetActive(isReady);
             _readyButtonText.text = isReady ? "Cancel" : "Ready";
         }
 
-        public void SetLobbyName(string lobbyName)
+        private void SetLobbyName(string lobbyName)
         {
             _lobbyNameText.text = lobbyName;
         }
 
-        public void SetEnebleReadyButton(bool isEnable)
+        private void SetEnableReadyButton(bool isEnable)
         {
             if (_playerReadyButton != null)
             {
@@ -91,23 +117,50 @@ namespace Assets.Scripts
             }
         }
 
+        private void ShowRemoveButton(string playerId, bool canShowButton)
+        {
+            _lobbyPlayers[playerId].ShowKickButton(canShowButton);
+        }
+
         private void OnEnable()
         {
             _lobbyPlayers = new Dictionary<string, WaitingRoomPlayerUI>();
             _playerReadyButton.onClick.AddListener( () => 
             {
-                OnReadyButtonPressed?.Invoke();    
+                _readyButtonLobbyWaitingRoomPressed.Raise();
             });
             _backButton.onClick.AddListener(() =>
             {
-                OnBackButtonPressed?.Invoke();
+                _backButtonLobbyWaitingRoomPressed.Raise();
             });
+
+            _setReadyLobbyWaitingRoomEvent.OnRaise += SetReady;
+            _setEnableReadyButtonLobbyWaitingRoomEvent.OnRaise += SetEnableReadyButton;
+            _removePlayerLobbyWaitingRoomEvent.OnRaise += RemovePlayer;
+            _setLobbyNameLobbyWaitingRoomEvent.OnRaise += SetLobbyName;
+            _setPlayerReadyLobbyWaitingRoomEvent.OnRaise += SetPlayerReady;
+            _clearPlayersLobbyWaitingRoomEvent.OnRaise += ClearPlayers;
+            _showLoadingLobbyWaitingRoomEvent.OnRaise += ShowLoading;
+            _addPlayerReadyLobbyWaitingRoomEvent.OnRaise += AddPlayer;
+            _showRemoveButtonLobbyWaitingRoomEvent.OnRaise += ShowRemoveButton;
+            _hostRemovePlayerFromLobby.OnRaise += RemovePlayer;
         }
 
         private void OnDisable()
         {
             _playerReadyButton.onClick.RemoveAllListeners();
             _backButton.onClick.RemoveAllListeners();
+
+            _setReadyLobbyWaitingRoomEvent.OnRaise -= SetReady;
+            _setEnableReadyButtonLobbyWaitingRoomEvent.OnRaise -= SetEnableReadyButton;
+            _removePlayerLobbyWaitingRoomEvent.OnRaise -= RemovePlayer;
+            _setLobbyNameLobbyWaitingRoomEvent.OnRaise -= SetLobbyName;
+            _setPlayerReadyLobbyWaitingRoomEvent.OnRaise -= SetPlayerReady;
+            _clearPlayersLobbyWaitingRoomEvent.OnRaise -= ClearPlayers;
+            _showLoadingLobbyWaitingRoomEvent.OnRaise -= ShowLoading;
+            _addPlayerReadyLobbyWaitingRoomEvent.OnRaise -= AddPlayer;
+            _showRemoveButtonLobbyWaitingRoomEvent.OnRaise -= ShowRemoveButton;
+            _hostRemovePlayerFromLobby.OnRaise -= RemovePlayer;
         }
     }
 }

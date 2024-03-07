@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.ScriptableObjects;
+using Assets.Scripts.ScriptableObjects.Variables;
 using System.Collections.Generic;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;

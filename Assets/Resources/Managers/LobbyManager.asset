@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: LobbyManager
   m_EditorClassIdentifier: 
   _playerNameVariable: {fileID: 11400000, guid: ace68e105c96ee84db72d4713f8a6b43, type: 2}
+  _errorMessageVariable: {fileID: 11400000, guid: 010c2abf53c23b54da1d80296d17826b, type: 2}
   _playerAvatarIndexVariable: {fileID: 11400000, guid: 52925b1d690f55b4db6529134c368c1d, type: 2}
   _keyStartGameVariable: {fileID: 11400000, guid: 1ae6988cbc1c72847b7e8298b39c4eeb, type: 2}
   _isStartupLoaded: {fileID: 11400000, guid: a293c2b80c92144478c6da31fb8498d0, type: 2}

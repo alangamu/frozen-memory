@@ -19,26 +19,22 @@ namespace Assets.Scripts
             _errorPopupView.gameObject.SetActive(false);
             _errorMessageVariable.OnValueChanged += OnErrorOccurred;
             _errorPopupView.OnPressedOk += OnPressedOk;
-//            NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnectCallback;
         }
-
-        //private void OnClientDisconnectCallback(ulong obj)
-        //{
-        //    _errorMessageVariable.SetValue("Client Disconnected");
-        //}
 
         private void OnDisable()
         {
             _errorMessageVariable.OnValueChanged -= OnErrorOccurred;
             _errorPopupView.OnPressedOk -= OnPressedOk;
-//            NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnectCallback;
         }
 
         private void OnPressedOk()
         {
             _errorPopupView.gameObject.SetActive(false);
             NetworkManager.Singleton.Shutdown();
-            _sceneTransition.PerformTransition();
+            if (_sceneTransition != null)
+            {
+                _sceneTransition.PerformTransition();
+            }
         }
 
         private void OnErrorOccurred(string errorMessage)

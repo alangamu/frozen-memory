@@ -1,6 +1,8 @@
 ﻿using Assets.Scripts.ScriptableObjects;
 using Assets.Scripts.ScriptableObjects.Variables;
+using Ricimi;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
 using UnityEngine.UI;
@@ -27,32 +29,43 @@ namespace Assets.Scripts
         private Image _playerAvatar;
         [SerializeField]
         private AvatarModel _playerAvatarModel;
+        [SerializeField]
+        private AnimatedButton _refreshLobbyListButton;
 
-        public async void RefreshLobbyList()
+        private async void RefreshLobbyList()
         {
+            _refreshLobbyListButton.enabled = false;
             ClearLobbyList();
 
             List<Lobby> lobbyList = await _lobbyManager.GetLobbyList();
 
             foreach (var item in lobbyList)
             {
-                GameObject lobbyItemUIObject = Instantiate(_lobbyItemUIPrefab, _lobbyListTransform);
-
-                if (lobbyItemUIObject.TryGetComponent(out LobbyItemUI lobbyItemUI))
+                if (item.AvailableSlots > 0)
                 {
-                    lobbyItemUI.Initialize(item.Name, item.Id);
+                    GameObject lobbyItemUIObject = Instantiate(_lobbyItemUIPrefab, _lobbyListTransform);
+
+                    if (lobbyItemUIObject.TryGetComponent(out LobbyItemUI lobbyItemUI))
+                    {
+                        lobbyItemUI.Initialize(item.Name, item.Id, item.Players.Count, item.MaxPlayers);
+                    }
                 }
             }
+
+            await Task.Delay(1000);
+            _refreshLobbyListButton.enabled = true;
         }
 
         private void OnEnable()
         {
+            _refreshLobbyListButton.onClick.AddListener(RefreshLobbyList);
             _playerNameVariable.OnValueChanged += OnPlayerNameChanged;
             _playerAvatarIndexVariable.OnValueChanged += OnPlayerAvatarChanged;
         }
 
         private void OnDisable()
         {
+            _refreshLobbyListButton.onClick.RemoveAllListeners();
             _playerNameVariable.OnValueChanged -= OnPlayerNameChanged;
             _playerAvatarIndexVariable.OnValueChanged -= OnPlayerAvatarChanged;
         }

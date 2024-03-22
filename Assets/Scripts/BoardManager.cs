@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Netcode;
+using Unity.Services.Authentication;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -37,6 +38,7 @@ namespace Assets.Scripts
 
         private List<int> _randomNumberList = new List<int>();
         private List<TileController> _activeTiles = new List<TileController>();
+        private string _playerId;
 
         private void OnEnable()
         {
@@ -47,6 +49,7 @@ namespace Assets.Scripts
 
             _endTurnEvent.OnRaise += EndTurn;
             _initializeEvent.OnRaise += Initialize;
+            _playerId = AuthenticationService.Instance.PlayerId;
         }
 
         private void OnDisable()
@@ -106,7 +109,7 @@ namespace Assets.Scripts
         {
             for (int i = 0; i < _tilesAmount; i++)
             {
-                _tileControllers[i].Initialize(randomNumberList[i]);
+                _tileControllers[i].Initialize(randomNumberList[i], _playerId);
                 _tileControllers[i].Initialize(_images[randomNumberList[i]]);
             }
 

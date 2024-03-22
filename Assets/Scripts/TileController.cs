@@ -1,5 +1,5 @@
-﻿using System;
-using Unity.Services.Authentication;
+﻿using Assets.Scripts.ScriptableObjects.Events;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,8 +8,12 @@ namespace Assets.Scripts
     public class TileController : MonoBehaviour
     {
         public event Action<string, TileController> OnTileClicked;
+
         public int TileIndex => _tileIndex;
         public bool IsDone => _isDone;
+
+        [SerializeField]
+        private TileControllerEvent _onTileClick;
 
         [SerializeField]
         private Image _tileImage;
@@ -25,6 +29,7 @@ namespace Assets.Scripts
         private bool _isDone;
         private int _tileIndex;
         private Sprite _tileSprite;
+        private string _playerId;
 
         public void Initialize(Sprite tileSprite)
         {
@@ -34,8 +39,9 @@ namespace Assets.Scripts
             ShowTile();
         }
 
-        public void Initialize(int tileNumber)
+        public void Initialize(int tileNumber, string playerId)
         {
+            _playerId = playerId;
             _tileIndex = tileNumber;
             _tileText.text = string.Empty;
             
@@ -46,8 +52,8 @@ namespace Assets.Scripts
         {
             if (!_isDone)
             {
-                string playerId = AuthenticationService.Instance.PlayerId;
-                OnTileClicked?.Invoke(playerId, this); 
+                OnTileClicked?.Invoke(_playerId, this);
+                _onTileClick.Raise(this);
             }
         }
 

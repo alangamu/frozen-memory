@@ -575,7 +575,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac3fdedd6439bf742b0d083351f67723, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _onTileClick: {fileID: 11400000, guid: 7895abc58549c6645bc1cc7b21976b0a, type: 2}
   _tileImage: {fileID: 393807673348185197}
   _tileText: {fileID: 3593600920160024662}
   _tileIsDone: {fileID: 4924324520974602938}
-  _isShowingIndex: 0
+  _isShowingIndex: 1

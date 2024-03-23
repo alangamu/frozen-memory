@@ -579,4 +579,4 @@ MonoBehaviour:
   _tileImage: {fileID: 393807673348185197}
   _tileText: {fileID: 3593600920160024662}
   _tileIsDone: {fileID: 4924324520974602938}
-  _isShowingIndex: 1
+  _isShowingIndex: 0

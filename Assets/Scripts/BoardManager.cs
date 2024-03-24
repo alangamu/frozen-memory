@@ -111,6 +111,7 @@ namespace Assets.Scripts
             {
                 _tileControllers[i].Initialize(randomNumberList[i], _playerId);
                 _tileControllers[i].Initialize(_images[randomNumberList[i]]);
+                _tileControllers[i].HideTile();
             }
 
             StartGame();
@@ -120,7 +121,7 @@ namespace Assets.Scripts
         {
             await Task.Delay(2000);
 
-            HideContentClientRpc();
+            //HideContentClientRpc();
 
             StartGameClientRpc();
         }

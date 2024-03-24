@@ -266,6 +266,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _lobbyManager: {fileID: 11400000, guid: 872f25c6295727d459df34fb4d38a167, type: 2}
   _isStartupLoaded: {fileID: 11400000, guid: a293c2b80c92144478c6da31fb8498d0, type: 2}
+  _quitGameEvent: {fileID: 11400000, guid: 3286ed710a763dc4cba7b1e58d0fcc44, type: 2}
 --- !u!1 &985809630
 GameObject:
   m_ObjectHideFlags: 0
